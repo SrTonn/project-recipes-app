@@ -1,14 +1,18 @@
 .Footer {
+  align-items: center;
+  background-color: rgb(168, 168, 168);
   bottom: 0;
   display: flex;
+  height: 58px;
   justify-content: space-between;
   position: fixed;
-  width: 100vw;
+  width: 100%;
 }
 
 .Footer button {
   background-color: transparent;
   border: none;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  margin: 10px;
+  width: 40px;
 }
