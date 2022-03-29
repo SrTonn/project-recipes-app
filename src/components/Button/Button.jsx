@@ -6,6 +6,7 @@ export default function Button({
   className,
   isDisabled,
   dataTestId,
+  children,
   buttonName,
   type,
   src,
@@ -19,7 +20,7 @@ export default function Button({
       data-testid={ dataTestId }
       src={ src || null }
     >
-      {buttonName}
+      {children || buttonName}
     </button>
   );
 }
@@ -29,6 +30,8 @@ Button.defaultProps = {
   isDisabled: false,
   type: 'button',
   src: null,
+  children: null,
+  buttonName: '',
 };
 
 Button.propTypes = {
@@ -36,7 +39,8 @@ Button.propTypes = {
   className: PropTypes.string,
   isDisabled: PropTypes.bool,
   dataTestId: PropTypes.string.isRequired,
-  buttonName: PropTypes.string.isRequired,
+  children: PropTypes.string,
+  buttonName: PropTypes.string,
   type: PropTypes.string,
   src: PropTypes.string,
 };
