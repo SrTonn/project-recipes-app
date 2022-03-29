@@ -8,6 +8,7 @@ export default function Button({
   dataTestId,
   buttonName,
   type,
+  src,
 }) {
   return (
     <button
@@ -16,6 +17,7 @@ export default function Button({
       onClick={ ({ target }) => handleClick(target) }
       disabled={ isDisabled }
       data-testid={ dataTestId }
+      src={ src || null }
     >
       {buttonName}
     </button>
@@ -26,6 +28,7 @@ Button.defaultProps = {
   className: '',
   isDisabled: false,
   type: 'button',
+  src: null,
 };
 
 Button.propTypes = {
@@ -35,4 +38,5 @@ Button.propTypes = {
   dataTestId: PropTypes.string.isRequired,
   buttonName: PropTypes.string.isRequired,
   type: PropTypes.string,
+  src: PropTypes.string,
 };

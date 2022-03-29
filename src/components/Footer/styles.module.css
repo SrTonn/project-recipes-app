@@ -3,4 +3,12 @@
   display: flex;
   justify-content: space-between;
   position: fixed;
+  width: 100vw;
+}
+
+.Footer button {
+  background-color: transparent;
+  border: none;
+  height: 50px;
+  width: 50px;
 }
