@@ -61,6 +61,7 @@ export default function Login() {
             onChange={ ({ target }) => handleChange(target) }
             value={ inputText.password }
             placeholder="Senha"
+            autoComplete="off"
           />
         </label>
         <Button
