@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Button from '../components/Button/Button';
+import Button from '../../components/Button/Button';
+import styles from './styles.module.css';
 
 export default function Login() {
   const [inputText, setInputText] = useState({
@@ -39,26 +40,27 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <form>
+    <div className={ styles.formContainer }>
+      <form className={ styles.form }>
         <label htmlFor="loginInput">
-          Email:
+          Login
           <input
             type="text"
             name="email"
             data-testid="email-input"
             onChange={ ({ target }) => handleChange(target) }
             value={ inputText.email }
+            placeholder="Email"
           />
         </label>
         <label htmlFor="passwordInput">
-          Senha:
           <input
             type="text"
             name="password"
             data-testid="password-input"
             onChange={ ({ target }) => handleChange(target) }
             value={ inputText.password }
+            placeholder="Senha"
           />
         </label>
         <Button

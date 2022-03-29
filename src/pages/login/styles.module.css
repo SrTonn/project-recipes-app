@@ -1,0 +1,29 @@
+.formContainer {
+  align-items: center;
+  background-color: rgb(30, 241, 171);
+  color: white;
+  display: flex;
+  height: 640px;
+  justify-content: center;
+  width: 360px;
+}
+
+.form {
+  max-width: 250px;
+  text-align: center;
+}
+
+.form button {
+  background-color: rgb(72, 134, 20);
+  opacity: 100%;
+  transition: 400ms;
+  width: 85%;
+}
+
+.form button:disabled {
+  background-color: aliceblue;
+  cursor: not-allowed;
+  opacity: 100%;
+  transition: 400ms;
+  width: 85%;
+}
