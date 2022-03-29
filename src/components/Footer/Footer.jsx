@@ -18,19 +18,26 @@ export default function Footer() {
       <Button
         src="drinkIcon"
         dataTestId="drinks-bottom-btn"
-        buttonName={ <img src={ drinkIcon } alt="drinkIcon" /> }
         handleClick={ handleClick }
-      />
+      >
+        <img src={ drinkIcon } alt="drinkIcon" />
+      </Button>
+
       <Button
         src="exploreIcon"
         dataTestId="explore-bottom-btn"
-        buttonName={ <img src={ exploreIcon } alt="exploreIcon" /> }
-      />
+        handleClick={ handleClick }
+      >
+        <img src={ exploreIcon } alt="exploreIcon" />
+      </Button>
+
       <Button
         src="mealIcon"
         dataTestId="food-bottom-btn"
-        buttonName={ <img src={ mealIcon } alt="mealIcon" /> }
-      />
+        handleClick={ handleClick }
+      >
+        <img src={ mealIcon } alt="mealIcon" />
+      </Button>
     </footer>
   );
 }
