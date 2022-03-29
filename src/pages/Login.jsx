@@ -14,7 +14,7 @@ export default function Login() {
       const MAX_CHARACTER_LENGTH = 6;
       const conditions = [
         /^[a-z._-]{3,26}@[a-z]{3,16}\.[a-z]{2,3}$/i.test(inputText.email),
-        inputText.password.length >= MAX_CHARACTER_LENGTH,
+        inputText.password.length > MAX_CHARACTER_LENGTH,
       ];
 
       setButton({ isDisable: conditions.includes(false) });
@@ -31,7 +31,7 @@ export default function Login() {
 
   const handleSubmit = () => {
     localStorage.setItem('mealsToken', '1');
-    localStorage.setItem('coctailsToken', '1');
+    localStorage.setItem('cocktailsToken', '1');
     localStorage.setItem('email:', inputText.email);
   };
 
