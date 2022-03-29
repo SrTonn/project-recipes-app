@@ -2,10 +2,30 @@ import React from 'react';
 import Button from '../Button/Button';
 
 export default function BarraDeBusca() {
+  const { inputValue } = useContext(context); // Aqui entra o valor(nomeado inputValue temporariamente) do input da busca para completar a lógica da função handleClick
+
+  const handleClick = ({ target }) => {
+    const { id } = target;
+
+    if (id === 'ingredient-search') {
+      getRecipes(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputValue}`);
+    }
+    if (id === 'name-search') {
+      getRecipes(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`);
+    }
+    if (id === 'first-letter-search') {
+      if (inputValue.length === 1) {
+        getRecipes(`https://www.themealdb.com/api/json/v1/1/search.php?f=${inputValue}`);
+      } else if (inputValue.length > 1) {
+        global.alert('Your search must have only 1 (one) character');
+      }
+    }
+  };
+
   return (
     <div>
       <label htmlFor="ingredient-search">
-        Busca por ingrediente
+        Ingredient
         <input
           type="radio"
           id="ingredient-search"
@@ -14,7 +34,7 @@ export default function BarraDeBusca() {
         />
       </label>
       <label htmlFor="name-search">
-        Busca por nome
+        Name
         <input
           type="radio"
           id="name-search"
@@ -23,7 +43,7 @@ export default function BarraDeBusca() {
         />
       </label>
       <label htmlFor="first-letter-search">
-        Busca por inicial
+        First letter
         <input
           type="radio"
           id="first-letter-search"
@@ -31,7 +51,11 @@ export default function BarraDeBusca() {
           name="search-method"
         />
       </label>
-      <Button dataTestId="exec-search-btn" buttonName="Buscar" />
+      <Button
+        dataTestId="exec-search-btn"
+        buttonName="Buscar"
+        // onClick={}
+      />
     </div>
   );
 }
