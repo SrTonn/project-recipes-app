@@ -9,8 +9,10 @@ import mealIcon from '../../images/mealIcon.svg';
 export default function Footer() {
   const { push } = useHistory();
 
-  const handleClick = () => {
-    push('/drinks');
+  const handleClick = ({ name }) => {
+    if (name === 'drink') push('/drinks');
+    if (name === 'explore') push('/explore');
+    if (name === 'food') push('/foods');
   };
 
   return (
@@ -20,7 +22,7 @@ export default function Footer() {
         dataTestId="drinks-bottom-btn"
         handleClick={ handleClick }
       >
-        <img src={ drinkIcon } alt="drinkIcon" />
+        <img name="drink" src={ drinkIcon } alt="drinkIcon" />
       </Button>
 
       <Button
@@ -28,7 +30,7 @@ export default function Footer() {
         dataTestId="explore-bottom-btn"
         handleClick={ handleClick }
       >
-        <img src={ exploreIcon } alt="exploreIcon" />
+        <img name="explore" src={ exploreIcon } alt="exploreIcon" />
       </Button>
 
       <Button
@@ -36,7 +38,7 @@ export default function Footer() {
         dataTestId="food-bottom-btn"
         handleClick={ handleClick }
       >
-        <img src={ mealIcon } alt="mealIcon" />
+        <img name="food" src={ mealIcon } alt="mealIcon" />
       </Button>
     </footer>
   );
