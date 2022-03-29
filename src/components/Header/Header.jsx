@@ -11,7 +11,8 @@ export default function Header() {
     isVisible: false,
     inputValue: '',
   });
-  const title = pathname.slice(1)[0].toUpperCase() + pathname.slice(2);
+  const title = pathname
+    .replace(/\/(\w)/g, (_, firstLetter) => ` ${firstLetter.toUpperCase()}`);
 
   const handleClick = () => {
     push('/profile');
