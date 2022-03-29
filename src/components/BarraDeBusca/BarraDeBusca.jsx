@@ -54,7 +54,7 @@ export default function BarraDeBusca() {
       <Button
         dataTestId="exec-search-btn"
         buttonName="Buscar"
-        // onClick={}
+        onClick={ handleClick }
       />
     </div>
   );
