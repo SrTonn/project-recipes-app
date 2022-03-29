@@ -32,7 +32,7 @@ export default function Login() {
   const handleSubmit = () => {
     localStorage.setItem('mealsToken', '1');
     localStorage.setItem('cocktailsToken', '1');
-    localStorage.setItem('email:', inputText.email);
+    localStorage.setItem('user', JSON.stringify({ email: inputText.email }));
   };
 
   return (
