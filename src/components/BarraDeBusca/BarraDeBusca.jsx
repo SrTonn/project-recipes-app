@@ -1,33 +1,51 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import getRecipes from '../../services/fetchRecipes';
 import Button from '../Button/Button';
+import styles from './styles.module.css'
 
 export default function BarraDeBusca() {
   const { inputValue } = useContext(context); // Aqui entra o valor(nomeado inputValue temporariamente) do input da busca para completar a lógica da função handleClick
   const { pathname } = useLocation(); // https://v5.reactrouter.com/web/api/Hooks
+  const history = useHistory();
 
-  const handleClick = ({ target }) => {
+  const defineEndPoint = ({ target }) => {
     const { id } = target;
     const foodsURL = 'themealdb';
     const drinksURL = 'thecocktaildb';
 
     if (id === 'ingredient-search') {
-      getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/filter.php?i=${inputValue}`);
+      return `https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/filter.php?i=${inputValue}`;
     }
     if (id === 'name-search') {
-      getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?s=${inputValue}`);
+      return `https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?s=${inputValue}`;
     }
     if (id === 'first-letter-search') {
       if (inputValue.length === 1) {
-        getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?f=${inputValue}`);
-      } else if (inputValue.length > 1) {
+        return `https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?f=${inputValue}`;
+      }
+      if (inputValue.length > 1) {
         global.alert('Your search must have only 1 (one) character');
       }
     }
   };
 
+  const handleClick = async () => {
+    const endPoint = defineEndPoint();
+    const recipesFetched = await getRecipes(endPoint);
+
+    if (recipesFetched.length === 1) {
+      if (pathname === '/foods') {
+        history.push(`/foods/${recipesFetched[0].idMeal}`);
+      }
+      if (pathname === '/drinks') {
+        history.push(`/drinks/${recipesFetched[0].idDrink}`);
+      }
+    }
+  };
+
   return (
-    <div>
+    <div className={ gitstyles.BarraDeBusca }>
       <label htmlFor="ingredient-search">
         Ingredient
         <input
