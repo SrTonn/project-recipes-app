@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-// import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
@@ -32,15 +31,10 @@ export default function Header() {
         dataTestId="profile-top-btn"
         handleClick={ handleClick }
         src="profileIcon"
-<<<<<<< HEAD
       >
         <img src={ profileIcon } alt="profile-icon" />
       </Button>
-      <p data-testid="page-title">{title}</p>
-=======
-      />
       <h2 data-testid="page-title">{title}</h2>
->>>>>>> ebd93edb202fb57f02684ad8b99d58c8a257dfec
       <Button
         dataTestId="search-top-btn"
         src="searchIcon"
@@ -61,7 +55,3 @@ export default function Header() {
     </header>
   );
 }
-
-// Header.propTypes = {
-//   title: PropTypes.string.isRequired,
-// };
