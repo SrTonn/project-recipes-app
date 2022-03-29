@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Button from '../components/Button/Button';
 
 export default function Login() {
@@ -29,10 +30,12 @@ export default function Login() {
     }));
   };
 
+  const { push } = useHistory();
   const handleSubmit = () => {
     localStorage.setItem('mealsToken', '1');
     localStorage.setItem('cocktailsToken', '1');
     localStorage.setItem('user', JSON.stringify({ email: inputText.email }));
+    push('/foods');
   };
 
   return (
