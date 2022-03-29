@@ -16,8 +16,6 @@ export default function Login() {
         /^[a-z._-]{3,26}@[a-z]{3,16}\.[a-z]{2,3}$/i.test(inputText.email),
         inputText.password.length >= MAX_CHARACTER_LENGTH,
       ];
-      console.log(conditions);
-      console.log('input password:', inputText.password, inputText.password.length);
 
       setButton({ isDisable: conditions.includes(false) });
     };
@@ -29,6 +27,12 @@ export default function Login() {
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleSubmit = () => {
+    localStorage.setItem('mealsToken', '1');
+    localStorage.setItem('coctailsToken', '1');
+    localStorage.setItem('email:', inputText.email);
   };
 
   return (
@@ -58,6 +62,8 @@ export default function Login() {
           dataTestId="login-submit-btn"
           buttonName="Entrar"
           isDisabled={ button.isDisable }
+          type="button"
+          handleClick={ handleSubmit }
         />
       </form>
     </div>
