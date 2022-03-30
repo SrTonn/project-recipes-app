@@ -1,51 +1,64 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import React, { useContext, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import getRecipes from '../../services/fetchRecipes';
 import Button from '../Button/Button';
-import styles from './styles.module.css'
+import styles from './styles.module.css';
+import Context from '../../context/Context';
 
 export default function BarraDeBusca() {
-  const { inputValue } = useContext(context); // Aqui entra o valor(nomeado inputValue temporariamente) do input da busca para completar a lógica da função handleClick
+  const { inputSearch: { inputValue } } = useContext(Context); // Aqui entra o valor(nomeado inputValue temporariamente) do input da busca para completar a lógica da função handleClick
   const { pathname } = useLocation(); // https://v5.reactrouter.com/web/api/Hooks
   const history = useHistory();
+  const [recipes, setRecipes] = useState([]);
 
-  const defineEndPoint = ({ target }) => {
+
+  const handleRadioButton = async ({ target }) => {
     const { id } = target;
+    console.log('id no handleradio', id);
     const foodsURL = 'themealdb';
     const drinksURL = 'thecocktaildb';
+    let recipesFetched = [];
 
     if (id === 'ingredient-search') {
-      return `https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/filter.php?i=${inputValue}`;
+      console.log('no if do ingrediente');
+      recipesFetched = await getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/filter.php?i=${inputValue}`);
+      setRecipes(recipesFetched);
     }
     if (id === 'name-search') {
-      return `https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?s=${inputValue}`;
+      console.log('no if do nome');
+      recipesFetched = await getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?s=${inputValue}`);
+      setRecipes(recipesFetched);
     }
     if (id === 'first-letter-search') {
       if (inputValue.length === 1) {
-        return `https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?f=${inputValue}`;
+        console.log('no if 1 da primeira letra');
+        recipesFetched = await getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?f=${inputValue}`);
+        setRecipes(recipesFetched);
       }
       if (inputValue.length > 1) {
+        console.log('no if 2 da primeira letra');
         global.alert('Your search must have only 1 (one) character');
       }
     }
   };
 
-  const handleClick = async () => {
-    const endPoint = defineEndPoint();
-    const recipesFetched = await getRecipes(endPoint);
-
-    if (recipesFetched.length === 1) {
-      if (pathname === '/foods') {
+  const handleClick = () => {
+    if (pathname === '/foods') {
+      if (recipes.length === 1) {
         history.push(`/foods/${recipesFetched[0].idMeal}`);
       }
-      if (pathname === '/drinks') {
+     //Renderizar na tela as receitas encontradas
+    }
+    if (pathname === '/drinks') {
+      if (recipes.length === 1) {
         history.push(`/drinks/${recipesFetched[0].idDrink}`);
       }
+      //Renderizar na tela as receitas encontradas
     }
   };
 
   return (
-    <div className={ gitstyles.BarraDeBusca }>
+    <div className={ styles.BarraDeBusca }>
       <label htmlFor="ingredient-search">
         Ingredient
         <input
@@ -53,6 +66,7 @@ export default function BarraDeBusca() {
           id="ingredient-search"
           data-testid="ingredient-search-radio"
           name="search-method"
+          onClick={ handleRadioButton }
         />
       </label>
       <label htmlFor="name-search">
@@ -62,6 +76,7 @@ export default function BarraDeBusca() {
           id="name-search"
           data-testid="name-search-radio"
           name="search-method"
+          onClick={ handleRadioButton }
         />
       </label>
       <label htmlFor="first-letter-search">
@@ -71,12 +86,13 @@ export default function BarraDeBusca() {
           id="first-letter-search"
           data-testid="first-letter-search-radio"
           name="search-method"
+          onClick={ handleRadioButton }
         />
       </label>
       <Button
         dataTestId="exec-search-btn"
         buttonName="Buscar"
-        onClick={ handleClick }
+        handleClick={ handleClick }
       />
     </div>
   );
