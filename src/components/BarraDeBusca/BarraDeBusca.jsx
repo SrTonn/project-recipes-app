@@ -6,11 +6,10 @@ import styles from './styles.module.css';
 import Context from '../../context/Context';
 
 export default function BarraDeBusca() {
-  const { inputSearch: { inputValue } } = useContext(Context); // Aqui entra o valor(nomeado inputValue temporariamente) do input da busca para completar a lógica da função handleClick
-  const { pathname } = useLocation(); // https://v5.reactrouter.com/web/api/Hooks
+  const { inputSearch: { inputValue }, setRecipesToRender } = useContext(Context);
+  const { pathname } = useLocation(); // Referência do useLocation e do useHistory: https://v5.reactrouter.com/web/api/Hooks
   const history = useHistory();
   const [recipes, setRecipes] = useState([]);
-
 
   const handleRadioButton = async ({ target }) => {
     const { id } = target;
@@ -43,18 +42,14 @@ export default function BarraDeBusca() {
   };
 
   const handleClick = () => {
-    if (pathname === '/foods') {
-      if (recipes.length === 1) {
+    if (recipes.length === 1) {
+      if (pathname === '/foods') {
         history.push(`/foods/${recipesFetched[0].idMeal}`);
       }
-     //Renderizar na tela as receitas encontradas
-    }
-    if (pathname === '/drinks') {
-      if (recipes.length === 1) {
+      if (pathname === '/drinks') {
         history.push(`/drinks/${recipesFetched[0].idDrink}`);
       }
-      //Renderizar na tela as receitas encontradas
-    }
+    } else { setRecipesToRender(recipes); }
   };
 
   return (

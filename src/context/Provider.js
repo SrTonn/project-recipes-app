@@ -7,9 +7,16 @@ export default function Provider({ children }) {
     isVisible: false,
     inputValue: '',
   });
+  const [recipesToRender, setRecipesToRender] = useState([]);
+
+  useEffect(() => {
+  }, []);
+
   const context = {
     inputSearch,
     setInputSearch,
+    recipesToRender,
+    setRecipesToRender,
   };
 
   return (
