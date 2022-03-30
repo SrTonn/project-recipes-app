@@ -11,6 +11,14 @@ export default function BarraDeBusca() {
   const history = useHistory();
   const [recipes, setRecipes] = useState([]);
 
+  const getMealsOrDrinks = (recipesFetched) => {
+    if (pathname === '/foods') {
+      setRecipes(recipesFetched.meals);
+    } else if (pathname === '/drinks') {
+      setRecipes(recipesFetched.drinks);
+    }
+  };
+
   const handleRadioButton = async ({ target }) => {
     const { id } = target;
     console.log('id no handleradio', id);
@@ -21,18 +29,18 @@ export default function BarraDeBusca() {
     if (id === 'ingredient-search') {
       console.log('no if do ingrediente');
       recipesFetched = await getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/filter.php?i=${inputValue}`);
-      setRecipes(recipesFetched);
+      getMealsOrDrinks(recipesFetched);
     }
     if (id === 'name-search') {
       console.log('no if do nome');
       recipesFetched = await getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?s=${inputValue}`);
-      setRecipes(recipesFetched);
+      getMealsOrDrinks(recipesFetched);
     }
     if (id === 'first-letter-search') {
       if (inputValue.length === 1) {
         console.log('no if 1 da primeira letra');
         recipesFetched = await getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?f=${inputValue}`);
-        setRecipes(recipesFetched);
+        getMealsOrDrinks(recipesFetched);
       }
       if (inputValue.length > 1) {
         console.log('no if 2 da primeira letra');
@@ -49,6 +57,8 @@ export default function BarraDeBusca() {
       if (pathname === '/drinks') {
         history.push(`/drinks/${recipesFetched[0].idDrink}`);
       }
+    } else if (recipes.length < 1) {
+      global.alert('Sorry, we havent found any recipes for these filters');
     } else { setRecipesToRender(recipes); }
   };
 

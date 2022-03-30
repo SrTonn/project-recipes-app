@@ -9,9 +9,6 @@ export default function Provider({ children }) {
   });
   const [recipesToRender, setRecipesToRender] = useState([]);
 
-  useEffect(() => {
-  }, []);
-
   const context = {
     inputSearch,
     setInputSearch,
