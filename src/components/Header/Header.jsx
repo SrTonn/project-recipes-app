@@ -4,6 +4,7 @@ import Button from '../Button/Button';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import styles from './styles.module.css';
+import formatTitle from '../../helpers/formatTitle';
 
 export default function Header() {
   const { push, location: { pathname } } = useHistory();
@@ -11,9 +12,7 @@ export default function Header() {
     isVisible: false,
     inputValue: '',
   });
-  const title = pathname
-    .replace(/\/(\w)/g, (_, firstLetter) => ` ${firstLetter.toUpperCase()}`);
-
+  const title = formatTitle(pathname);
   const handleClick = () => {
     push('/profile');
   };
