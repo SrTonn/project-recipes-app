@@ -15,7 +15,7 @@ export default function Login() {
     const validateLogin = () => {
       const MAX_CHARACTER_LENGTH = 6;
       const conditions = [
-        /^[a-z._-]{3,26}@[a-z]{3,16}\.[a-z]{2,3}$/i.test(inputText.email),
+        /^\S+@\S+\.\S+$/.test(inputText.email),
         inputText.password.length > MAX_CHARACTER_LENGTH,
       ];
 
