@@ -25,8 +25,15 @@ export default function Header() {
     setInputSearch((prevState) => ({ ...prevState, inputValue: value }));
   };
 
-  const searchNoRender = ['/profile', '/explore', '/explore/foods', '/explore/drinks',
-    '/favorite-recipes'];
+  const searchNoRender = [
+    '/profile',
+    '/explore',
+    '/explore/foods',
+    '/explore/drinks',
+    '/favorite-recipes',
+    '/explore/foods/ingredients',
+    '/explore/drinks/ingredients',
+    '/done-recipes'];
 
   return (
     <header className={ styles.Header }>
