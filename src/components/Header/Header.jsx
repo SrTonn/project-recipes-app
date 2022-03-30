@@ -11,6 +11,7 @@ export default function Header() {
     isVisible: false,
     inputValue: '',
   });
+
   const title = pathname
     .replace(/\/(\w)/g, (_, firstLetter) => ` ${firstLetter.toUpperCase()}`);
 
@@ -26,6 +27,9 @@ export default function Header() {
     setInputSearch((prevState) => ({ ...prevState, inputValue: value }));
   };
 
+  const searchNoRender = ['/profile', '/explore', '/explore/foods', '/explore/drinks',
+    '/favorite-recipes'];
+
   return (
     <header className={ styles.Header }>
       <Button
@@ -36,13 +40,16 @@ export default function Header() {
         <img src={ profileIcon } alt="profile-icon" />
       </Button>
       <h2 data-testid="page-title">{title}</h2>
-      <Button
-        dataTestId="search-top-btn"
-        src="searchIcon"
-        handleClick={ toggleInput }
-      >
-        <img src={ searchIcon } alt="searchIcon" />
-      </Button>
+      { !searchNoRender.includes((pathname))
+      && (
+        <Button
+          dataTestId="search-top-btn"
+          src="searchIcon"
+          handleClick={ toggleInput }
+        >
+          <img src={ searchIcon } alt="searchIcon" />
+        </Button>
+      )}
       { inputSearch.isVisible
       && <input
         data-testid="search-input"
