@@ -1,65 +1,43 @@
 import React, { useContext, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import getRecipes from '../../services/fetchRecipes';
+import { useLocation } from 'react-router-dom';
 import Button from '../Button/Button';
 import styles from './styles.module.css';
 import Context from '../../context/Context';
 
 export default function BarraDeBusca() {
-  const { inputSearch: { inputValue }, setRecipesToRender } = useContext(Context);
+  const { inputSearch: { inputValue }, setRecipesInfo, recipes } = useContext(Context);
   const { pathname } = useLocation(); // Referência do useLocation e do useHistory: https://v5.reactrouter.com/web/api/Hooks
-  const history = useHistory();
-  const [recipes, setRecipes] = useState([]);
+  const [baseEndPoint, setBaseEndPoint] = useState('');
+  const [currentRadioValue, setCurrentRadioValue] = useState('');
 
-  const getMealsOrDrinks = (recipesFetched) => {
-    if (pathname === '/foods') {
-      setRecipes(recipesFetched.meals);
-    } else if (pathname === '/drinks') {
-      setRecipes(recipesFetched.drinks);
-    }
-  };
-
-  const handleRadioButton = async ({ target }) => {
-    const { id } = target;
-    console.log('id no handleradio', id);
+  const handleRadioButton = async ({ target: { id } }) => {
+    setCurrentRadioValue(id);
     const foodsURL = 'themealdb';
     const drinksURL = 'thecocktaildb';
-    let recipesFetched = [];
+    const domain = pathname === '/foods' ? foodsURL : drinksURL;
 
     if (id === 'ingredient-search') {
-      console.log('no if do ingrediente');
-      recipesFetched = await getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/filter.php?i=${inputValue}`);
-      getMealsOrDrinks(recipesFetched);
+      setBaseEndPoint(`https://www.${domain}.com/api/json/v1/1/filter.php?i=`);
     }
     if (id === 'name-search') {
-      console.log('no if do nome');
-      recipesFetched = await getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?s=${inputValue}`);
-      getMealsOrDrinks(recipesFetched);
+      setBaseEndPoint(`https://www.${domain}.com/api/json/v1/1/search.php?s=`);
     }
     if (id === 'first-letter-search') {
-      if (inputValue.length === 1) {
-        console.log('no if 1 da primeira letra');
-        recipesFetched = await getRecipes(`https://www.${pathname === '/foods' ? foodsURL : drinksURL}.com/api/json/v1/1/search.php?f=${inputValue}`);
-        getMealsOrDrinks(recipesFetched);
-      }
-      if (inputValue.length > 1) {
-        console.log('no if 2 da primeira letra');
-        global.alert('Your search must have only 1 (one) character');
-      }
+      setBaseEndPoint(`https://www.${domain}.com/api/json/v1/1/search.php?f=`);
     }
   };
 
   const handleClick = () => {
-    if (recipes.length === 1) {
-      if (pathname === '/foods') {
-        history.push(`/foods/${recipesFetched[0].idMeal}`);
-      }
-      if (pathname === '/drinks') {
-        history.push(`/drinks/${recipesFetched[0].idDrink}`);
-      }
-    } else if (recipes.length < 1) {
-      global.alert('Sorry, we havent found any recipes for these filters');
-    } else { setRecipesToRender(recipes); }
+    console.log('recipes=>', recipes);
+    if (currentRadioValue === 'first-letter-search' && inputValue.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    }
+    setRecipesInfo((prevState) => ({
+      ...prevState,
+      endpoint: baseEndPoint + inputValue,
+      canUpdate: true,
+      pathname,
+    }));
   };
 
   return (

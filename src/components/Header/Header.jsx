@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { useHistory, Redirect } from 'react-router-dom';
 import Button from '../Button/Button';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
@@ -8,11 +8,7 @@ import Context from '../../context/Context';
 
 export default function Header() {
   const { push, location: { pathname } } = useHistory();
-  // const [inputSearch, setInputSearch] = useState({
-  //   isVisible: false,
-  //   inputValue: '',
-  // });
-  const { inputSearch, setInputSearch } = useContext(Context);
+  const { inputSearch, setInputSearch, recipes } = useContext(Context);
   const title = pathname
     .replace(/\/(\w)/g, (_, firstLetter) => ` ${firstLetter.toUpperCase()}`);
 
@@ -27,6 +23,20 @@ export default function Header() {
   const handleChange = ({ value }) => {
     setInputSearch((prevState) => ({ ...prevState, inputValue: value }));
   };
+
+  useEffect(() => {
+    if (!recipes) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+  }, [recipes]);
+
+  if (recipes?.length === 1 && pathname.includes('foods')) {
+    return <Redirect to={ `/foods/${recipes[0].idMeal}` } />;
+  }
+
+  if (recipes?.length === 1 && pathname.includes('drinks')) {
+    return <Redirect to={ `/drinks/${recipes[0].idDrink}` } />;
+  }
 
   return (
     <header className={ styles.Header }>
