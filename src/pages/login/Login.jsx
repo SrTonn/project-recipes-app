@@ -43,7 +43,7 @@ export default function Login() {
     <div className={ styles.formContainer }>
       <form className={ styles.form }>
         <label htmlFor="loginInput">
-          Login
+          <h2>Login</h2>
           <input
             type="text"
             name="email"

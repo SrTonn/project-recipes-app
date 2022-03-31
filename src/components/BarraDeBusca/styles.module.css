@@ -1,0 +1,19 @@
+.SearchBarContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px;
+}
+
+.SearchBarContainer button {
+  align-items: center;
+  background-color: #c4c4c4;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  width: 85px;
+}
+
+.SearchBarContainer label {
+  margin-right: 5px;
+}
