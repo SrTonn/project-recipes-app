@@ -3,9 +3,9 @@
   flex-direction: column;
   height: 172px;
   justify-content: space-between;
+  width: 161px;
 }
 
 .Card img {
   height: 109px;
-  width: 161px;
 }
