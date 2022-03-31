@@ -1,13 +1,13 @@
 import React from 'react';
-// import BarraDeBusca from '../../components/BarraDeBusca/BarraDeBusca';
+import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 
 export default function ExploreDrinksIngredients() {
   return (
     <main>
       <Header />
-      {/* <BarraDeBusca /> */}
       <div>ExploreDrinksIngredients</div>
+      <Footer />
     </main>
   );
 }
