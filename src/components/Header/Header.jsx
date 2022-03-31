@@ -4,14 +4,14 @@ import Button from '../Button/Button';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import styles from './styles.module.css';
+import formatTitle from '../../helpers/formatTitle';
 import Context from '../../context/Context';
 import BarraDeBusca from '../BarraDeBusca/BarraDeBusca';
 
 export default function Header() {
-  const { push, location: { pathname } } = useHistory();
   const { inputSearch, setInputSearch, recipes } = useContext(Context);
-  const title = pathname
-    .replace(/\/(\w)/g, (_, firstLetter) => ` ${firstLetter.toUpperCase()}`);
+  const { push, location: { pathname } } = useHistory();
+  const title = formatTitle(pathname);
 
   const handleClick = () => {
     push('/profile');
@@ -20,6 +20,17 @@ export default function Header() {
   const toggleInput = () => {
     setInputSearch((prevState) => ({ ...prevState, isVisible: !prevState.isVisible }));
   };
+
+  const searchNoRender = [
+    '/profile',
+    '/explore',
+    '/explore/foods',
+    '/explore/drinks',
+    '/favorite-recipes',
+    '/explore/foods/ingredients',
+    '/explore/drinks/ingredients',
+    '/done-recipes',
+  ];
 
   useEffect(() => {
     if (!recipes) {
@@ -46,13 +57,14 @@ export default function Header() {
           <img src={ profileIcon } alt="profile-icon" />
         </Button>
         <h2 data-testid="page-title">{title}</h2>
-        <Button
-          dataTestId="search-top-btn"
-          src="searchIcon"
-          handleClick={ toggleInput }
-        >
-          <img src={ searchIcon } alt="searchIcon" />
-        </Button>
+        {!searchNoRender.includes(pathname) && (
+          <Button
+            dataTestId="search-top-btn"
+            src="searchIcon"
+            handleClick={ toggleInput }
+          >
+            <img src={ searchIcon } alt="searchIcon" />
+          </Button>)}
       </header>
       { inputSearch.isVisible && (<BarraDeBusca />)}
     </>
