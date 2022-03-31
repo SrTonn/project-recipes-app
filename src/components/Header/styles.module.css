@@ -7,10 +7,10 @@
   width: 100%;
 }
 
-  .Header button {
+.Header button {
   background-color: transparent;
   border: none;
   height: 40px;
   margin: 10px;
   width: 40px;
-  }
+}
