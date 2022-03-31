@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Login from '../pages/Login';
+import Login from '../pages/login/Login';
 import DoneRecipes from '../pages/DoneRecipes';
 import Explore from '../pages/Explore';
 import ExploreDrinksIngredients from '../pages/ExploreDrinksIngredients';
