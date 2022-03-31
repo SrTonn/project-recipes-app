@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './styles.module.css';
 
-export default function Card({ key, index, src, strMeal }) {
+export default function Card({ key, index, src, strType }) {
   return (
     <div
       className={ styles.Card }
@@ -11,10 +11,10 @@ export default function Card({ key, index, src, strMeal }) {
     >
       <img
         src={ src }
-        alt={ `Imagem da receita ${strMeal}` }
+        alt={ `Imagem da receita ${strType}` }
         data-testid={ `${index}-card-img` }
       />
-      <p data-testid={ `${index}-card-name` }>{ strMeal }</p>
+      <p data-testid={ `${index}-card-name` }>{ strType }</p>
     </div>
   );
 }
@@ -23,5 +23,5 @@ Card.propTypes = {
   index: PropTypes.number.isRequired,
   key: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
-  strMeal: PropTypes.string.isRequired,
+  strType: PropTypes.string.isRequired,
 };

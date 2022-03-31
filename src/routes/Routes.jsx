@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Login from '../pages/Login';
+import Login from '../pages/login/Login';
 import DoneRecipes from '../pages/DoneRecipes';
 import Explore from '../pages/explore/Explore';
 import ExploreDrinksIngredients from '../pages/explore/ExploreDrinksIngredients';
@@ -22,11 +22,11 @@ export default function Routes() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/foods" component={ Foods } />
-        <Route path="/drinks" component={ Drinks } />
-        <Route path="/foods/{id-da-receita}" component={ FoodDetails } />
-        <Route path="/foods/{id-da-receita}/in-progress" component={ FoodInProgress } />
-        <Route path="/drinks/{id-da-receita}/in-progress" component={ DrinkInProgress } />
+        <Route exact path="/foods" component={ Foods } />
+        <Route exact path="/drinks" component={ Drinks } />
+        <Route exact path="/foods/:id" component={ FoodDetails } />
+        <Route path="/foods/:id/in-progress" component={ FoodInProgress } />
+        <Route path="/drinks/:id/in-progress" component={ DrinkInProgress } />
         <Route path="/explore" component={ Explore } />
         <Route path="/explore/foods" component={ ExploreFoods } />
         <Route path="/explore/drinks" component={ ExploreDrinks } />

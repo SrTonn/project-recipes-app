@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Card from '../../components/Card/Card';
+import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import Context from '../../context/Context';
 import styles from './styles.module.css';
@@ -20,11 +21,12 @@ export default function Foods() {
                 key={ strMeal }
                 index={ index }
                 src={ strMealThumb }
-                strMeal={ strMeal }
+                strType={ strMeal }
               />
             ))
         )}
       </main>
+      <Footer />
     </>
   );
 }
