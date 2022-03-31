@@ -10,7 +10,7 @@ import NotFound from '../pages/NotFound';
 import Profile from '../pages/Profile';
 import ExploreFoodsIngredients from '../pages/explore/ExploreFoodsIngredients';
 import ExploreDrinks from '../pages/explore/ExploreDrinks';
-import Foods from '../pages/foods/Foods';
+import Foods from '../pages/Foods/Foods';
 import Drinks from '../pages/drinks/Drinks';
 import DrinkInProgress from '../pages/drinks/DrinkInProgress';
 import ExploreFoods from '../pages/explore/ExploreFoods';
