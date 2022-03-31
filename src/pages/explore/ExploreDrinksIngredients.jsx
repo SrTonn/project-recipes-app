@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 
 export default function ExploreDrinksIngredients() {
@@ -6,6 +7,7 @@ export default function ExploreDrinksIngredients() {
     <main>
       <Header />
       <div>ExploreDrinksIngredients</div>
+      <Footer />
     </main>
   );
 }

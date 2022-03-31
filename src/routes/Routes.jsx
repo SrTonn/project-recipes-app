@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Login from '../pages/Login';
+import Login from '../pages/login/Login';
 import DoneRecipes from '../pages/DoneRecipes';
 import Explore from '../pages/explore/Explore';
 import ExploreDrinksIngredients from '../pages/explore/ExploreDrinksIngredients';
@@ -10,7 +10,7 @@ import NotFound from '../pages/NotFound';
 import Profile from '../pages/Profile';
 import ExploreFoodsIngredients from '../pages/explore/ExploreFoodsIngredients';
 import ExploreDrinks from '../pages/explore/ExploreDrinks';
-import Foods from '../pages/foods/Foods';
+import Foods from '../pages/Foods/Foods';
 import Drinks from '../pages/drinks/Drinks';
 import DrinkInProgress from '../pages/drinks/DrinkInProgress';
 import ExploreFoods from '../pages/explore/ExploreFoods';
