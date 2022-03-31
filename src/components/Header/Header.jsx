@@ -5,6 +5,7 @@ import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import styles from './styles.module.css';
 import Context from '../../context/Context';
+import BarraDeBusca from '../BarraDeBusca/BarraDeBusca';
 
 export default function Header() {
   const { push, location: { pathname } } = useHistory();
@@ -18,10 +19,6 @@ export default function Header() {
 
   const toggleInput = () => {
     setInputSearch((prevState) => ({ ...prevState, isVisible: !prevState.isVisible }));
-  };
-
-  const handleChange = ({ value }) => {
-    setInputSearch((prevState) => ({ ...prevState, inputValue: value }));
   };
 
   useEffect(() => {
@@ -39,32 +36,25 @@ export default function Header() {
   }
 
   return (
-    <header className={ styles.Header }>
-      <Button
-        dataTestId="profile-top-btn"
-        handleClick={ handleClick }
-        src="profileIcon"
-      >
-        <img src={ profileIcon } alt="profile-icon" />
-      </Button>
-      <h2 data-testid="page-title">{title}</h2>
-      <Button
-        dataTestId="search-top-btn"
-        src="searchIcon"
-        handleClick={ toggleInput }
-      >
-        <img src={ searchIcon } alt="searchIcon" />
-      </Button>
-      { inputSearch.isVisible
-      && <input
-        data-testid="search-input"
-        type="text"
-        id="search"
-        value={ inputSearch.inputValue }
-        onChange={ ({ target }) => {
-          handleChange(target);
-        } }
-      />}
-    </header>
+    <>
+      <header className={ styles.Header }>
+        <Button
+          dataTestId="profile-top-btn"
+          handleClick={ handleClick }
+          src="profileIcon"
+        >
+          <img src={ profileIcon } alt="profile-icon" />
+        </Button>
+        <h2 data-testid="page-title">{title}</h2>
+        <Button
+          dataTestId="search-top-btn"
+          src="searchIcon"
+          handleClick={ toggleInput }
+        >
+          <img src={ searchIcon } alt="searchIcon" />
+        </Button>
+      </header>
+      { inputSearch.isVisible && (<BarraDeBusca />)}
+    </>
   );
 }

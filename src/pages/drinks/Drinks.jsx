@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import BarraDeBusca from '../../components/BarraDeBusca/BarraDeBusca';
 import Header from '../../components/Header/Header';
 import Context from '../../context/Context';
 
@@ -10,7 +9,6 @@ export default function Drinks() {
   return (
     <main>
       <Header />
-      <BarraDeBusca />
       <div>
         {recipes?.length > 0
           && (recipes

@@ -5,7 +5,13 @@ import styles from './styles.module.css';
 import Context from '../../context/Context';
 
 export default function BarraDeBusca() {
-  const { inputSearch: { inputValue }, setRecipesInfo, recipes } = useContext(Context);
+  const {
+    setInputSearch,
+    inputSearch,
+    inputSearch: { inputValue },
+    setRecipesInfo,
+  } = useContext(Context);
+
   const { pathname } = useLocation(); // Referência do useLocation e do useHistory: https://v5.reactrouter.com/web/api/Hooks
   const [baseEndPoint, setBaseEndPoint] = useState('');
   const [currentRadioValue, setCurrentRadioValue] = useState('');
@@ -28,7 +34,6 @@ export default function BarraDeBusca() {
   };
 
   const handleClick = () => {
-    console.log('recipes=>', recipes);
     if (currentRadioValue === 'first-letter-search' && inputValue.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     }
@@ -40,43 +45,58 @@ export default function BarraDeBusca() {
     }));
   };
 
+  const handleChange = ({ value }) => {
+    setInputSearch((prevState) => ({ ...prevState, inputValue: value }));
+  };
+
   return (
-    <div className={ styles.BarraDeBusca }>
-      <label htmlFor="ingredient-search">
-        Ingredient
-        <input
-          type="radio"
-          id="ingredient-search"
-          data-testid="ingredient-search-radio"
-          name="search-method"
-          onClick={ handleRadioButton }
-        />
-      </label>
-      <label htmlFor="name-search">
-        Name
-        <input
-          type="radio"
-          id="name-search"
-          data-testid="name-search-radio"
-          name="search-method"
-          onClick={ handleRadioButton }
-        />
-      </label>
-      <label htmlFor="first-letter-search">
-        First letter
-        <input
-          type="radio"
-          id="first-letter-search"
-          data-testid="first-letter-search-radio"
-          name="search-method"
-          onClick={ handleRadioButton }
-        />
-      </label>
-      <Button
-        dataTestId="exec-search-btn"
-        buttonName="Buscar"
-        handleClick={ handleClick }
+    <div className={ styles.SearchBarContainer }>
+      <input
+        className={ styles.SearchInput }
+        data-testid="search-input"
+        type="text"
+        id="search"
+        value={ inputSearch.inputValue }
+        onChange={ ({ target }) => { handleChange(target); } }
       />
+      <div className={ styles.BarraDeBusca }>
+        <label htmlFor="ingredient-search">
+          <input
+            className={ styles.RadioInput }
+            type="radio"
+            id="ingredient-search"
+            data-testid="ingredient-search-radio"
+            name="search-method"
+            onClick={ handleRadioButton }
+          />
+          Ingredient
+        </label>
+        <label htmlFor="name-search">
+          <input
+            type="radio"
+            id="name-search"
+            data-testid="name-search-radio"
+            name="search-method"
+            onClick={ handleRadioButton }
+          />
+          Name
+        </label>
+        <label htmlFor="first-letter-search">
+          <input
+            type="radio"
+            id="first-letter-search"
+            data-testid="first-letter-search-radio"
+            name="search-method"
+            onClick={ handleRadioButton }
+          />
+          First letter
+        </label>
+        <Button
+          dataTestId="exec-search-btn"
+          buttonName="Buscar"
+          handleClick={ handleClick }
+        />
+      </div>
     </div>
   );
 }
