@@ -38,14 +38,15 @@ export default function FoodDetails() {
     return <p>Loading...</p>;
   }
   return (
-    <div>
-      {console.log(data)}
+    <>
       <img
         className={ styles.ImgHeader }
         src={ data.strDrinkThumb }
         alt={ data.strDrink }
         data-testid="recipe-photo"
       />
+      <main className={ styles.Main }>
+      <div className={ styles.NameAndIconsContainer }>
       <h2 data-testid="recipe-title">{ data.strDrink }</h2>
       <Button dataTestId="share-btn" handleClick={ handleClick } src="share-btn">
         <img src={ shareIcon } alt="Ícone de compartilhar" />
@@ -53,7 +54,12 @@ export default function FoodDetails() {
       <Button dataTestId="favorite-btn" handleClick={ handleClick } src="favorite-btn">
         <img src={ favoriteIcon } alt="Ícone de favorito" />
       </Button>
-      <p data-testid="recipe-category">{ data.strCategory }</p>
+      </div>
+      <p
+        data-testid="recipe-category"
+        className={ styles.Category }
+        >
+          { data.strCategory }</p>
       <h3>Ingredients</h3>
       <div className={ styles.IngredientsContainer }>
         <ul>
@@ -93,6 +99,7 @@ export default function FoodDetails() {
         buttonName="Start Recipe"
         handleClick={ handleClick }
       />
-    </div>
+      </main>
+    </>
   );
 }
