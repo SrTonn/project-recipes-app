@@ -14,10 +14,11 @@ export default function FoodDetails() {
   const { params: { id } } = useRouteMatch();
   const [data, setData] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
+  const MAX_RECOMMENDATION = 6;
 
   useEffect(() => {
     (async () => {
-      const { meals }  = await getRecipes(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+      const { meals } = await getRecipes(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       setData(meals.at(0));
     })();
     (async () => {
@@ -101,14 +102,16 @@ export default function FoodDetails() {
         />
         <h3>Recommended</h3>
         <div className={ styles.CarroselContainer }>
-          {recommendations?.slice(0, 6).map(({ strDrinkThumb, strCategory, idDrink }, index) => (
-            <Card
-              key={ idDrink }
-              src={ strDrinkThumb }
-              strType={ strCategory }
-              dataTestId={ { container: `${index}-recomendation-card` } }
-            />
-          ))}
+          {recommendations?.slice(0, MAX_RECOMMENDATION)
+            .map(({ strDrinkThumb, strCategory, idDrink }, index) => (
+              <Card
+                key={ idDrink }
+                index={ index }
+                src={ strDrinkThumb }
+                strType={ strCategory }
+                dataTestId={ { container: '-recomendation-card' } }
+              />
+            ))}
         </div>
         <Button
           className={ styles.StartButton }

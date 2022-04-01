@@ -18,12 +18,13 @@ export default function Drinks() {
             .map(({ strDrink, strDrinkThumb }, index) => (
               <Card
                 key={ strDrink }
+                index={ index }
                 src={ strDrinkThumb }
                 strType={ strDrink }
                 dataTestId={ {
-                  container: `${index}-recipe-card`,
-                  img: `${index}-card-img`,
-                  paragraph: `${index}-card-name`,
+                  container: '-recipe-card',
+                  img: '-card-img',
+                  paragraph: '-card-name',
                 } }
               />
             ))

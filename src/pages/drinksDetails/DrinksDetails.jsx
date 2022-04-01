@@ -12,6 +12,7 @@ export default function FoodDetails() {
   const { params: { id } } = useRouteMatch();
   const [data, setData] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
+  const MAX_RECOMMENDATION = 6;
 
   useEffect(() => {
     (async () => {
@@ -25,7 +26,7 @@ export default function FoodDetails() {
     })();
     (async () => {
       const { meals } = await getRecipes('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-      console.log(meals)
+      console.log(meals);
       setRecommendations(meals);
     })();
   }, []);
@@ -39,7 +40,7 @@ export default function FoodDetails() {
   }
   return (
     <>
-        {/* {console.log(data)} */}
+      {/* {console.log(data)} */}
       <img
         className={ styles.ImgHeader }
         src={ data.strDrinkThumb }
@@ -47,56 +48,64 @@ export default function FoodDetails() {
         data-testid="recipe-photo"
       />
       <main className={ styles.Main }>
-      <div className={ styles.NameAndIconsContainer }>
-      <h2 data-testid="recipe-title">{ data.strDrink }</h2>
-      <Button dataTestId="share-btn" handleClick={ handleClick } src="share-btn">
-        <img src={ shareIcon } alt="Ícone de compartilhar" />
-      </Button>
-      <Button dataTestId="favorite-btn" handleClick={ handleClick } src="favorite-btn">
-        <img src={ favoriteIcon } alt="Ícone de favorito" />
-      </Button>
-      </div>
-      <p
-        data-testid="recipe-category"
-        className={ styles.Category }
-        >
-          { data.strAlcoholic }</p>
-      <h3>Ingredients</h3>
-      <div className={ styles.IngredientsContainer }>
-        <ul>
-          {reduceIngredients(data).map((value, index) => (
-            <li
-              key={ value }
-              data-testid={ `${index}-ingredient-name-and-measure` }
-            >
-              {value}
-            </li>))}
-        </ul>
-      </div>
-      <h3>Instructions</h3>
-      <p
-        className={ styles.Instructions }
-        data-testid="instructions"
-      >
-        {data.strInstructions}
-      </p>
-      <h3>Recommended</h3>
-      <div className={ styles.CarroselContainer }>
-          {recommendations?.slice(0, 6).map(({ strMealThumb, strCategory, idMeal }, index) => (
-            <Card
-              key={ idMeal }
-              src={ strMealThumb }
-              strType={ strCategory }
-              dataTestId={ { container: `${index}-recomendation-card` } }
-            />
-          ))}
+        <div className={ styles.NameAndIconsContainer }>
+          <h2 data-testid="recipe-title">{ data.strDrink }</h2>
+          <Button dataTestId="share-btn" handleClick={ handleClick } src="share-btn">
+            <img src={ shareIcon } alt="Ícone de compartilhar" />
+          </Button>
+          <Button
+            dataTestId="favorite-btn"
+            handleClick={ handleClick }
+            src="favorite-btn"
+          >
+            <img src={ favoriteIcon } alt="Ícone de favorito" />
+          </Button>
         </div>
-      <Button
-        className={ styles.StartButton }
-        dataTestId="start-recipe-btn"
-        buttonName="Start Recipe"
-        handleClick={ handleClick }
-      />
+        <p
+          data-testid="recipe-category"
+          className={ styles.Category }
+        >
+          { data.strAlcoholic }
+
+        </p>
+        <h3>Ingredients</h3>
+        <div className={ styles.IngredientsContainer }>
+          <ul>
+            {reduceIngredients(data).map((value, index) => (
+              <li
+                key={ value }
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
+                {value}
+              </li>))}
+          </ul>
+        </div>
+        <h3>Instructions</h3>
+        <p
+          className={ styles.Instructions }
+          data-testid="instructions"
+        >
+          {data.strInstructions}
+        </p>
+        <h3>Recommended</h3>
+        <div className={ styles.CarroselContainer }>
+          {recommendations?.slice(0, MAX_RECOMMENDATION)
+            .map(({ strMealThumb, strCategory, idMeal }, index) => (
+              <Card
+                key={ idMeal }
+                index={ index }
+                src={ strMealThumb }
+                strType={ strCategory }
+                dataTestId={ { container: '-recomendation-card' } }
+              />
+            ))}
+        </div>
+        <Button
+          className={ styles.StartButton }
+          dataTestId="start-recipe-btn"
+          buttonName="Start Recipe"
+          handleClick={ handleClick }
+        />
       </main>
     </>
   );
