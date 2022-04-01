@@ -6,21 +6,29 @@ import shareIcon from '../../images/shareIcon.svg';
 // import favoritedIcon from '../../../images/blackHeartIcon.svg';
 import styles from './styles.module.css';
 import reduceIngredients from '../../services/reduceIngredients';
+import getRecipes from '../../services/fetchRecipes';
+import Card from '../../components/Card/Card';
+// import Card from '../../components/Card/Card';
 
 export default function FoodDetails() {
   const { params: { id } } = useRouteMatch();
   const [data, setData] = useState(null);
+  const [recommendations, setRecommendations] = useState(null);
+
   useEffect(() => {
     (async () => {
-      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-      const { meals } = await response.json();
+      const { meals }  = await getRecipes(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       setData(meals.at(0));
+    })();
+    (async () => {
+      const { drinks } = await getRecipes('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      setRecommendations(drinks);
     })();
   }, [id]);
 
   const handleClick = () => {
     console.log('ativou handleClick');
-    console.log(data);
+    console.log(recommendations);
   };
 
   if (!data) {
@@ -78,6 +86,7 @@ export default function FoodDetails() {
         <iframe
           className={ styles.Iframe }
           src={ data.strYoutube.replace('watch?v=', 'embed/') }
+          data-testid="video"
           title="YouTube video player"
           frameBorder="0"
           allow="
@@ -91,8 +100,16 @@ export default function FoodDetails() {
           allowFullScreen
         />
         <h3>Recommended</h3>
-        <div>
+        <div className={ styles.CarroselContainer }>
           {/* cards com scroll horizontal data-testid="${index}-recomendation-card" */}
+          {recommendations?.map(({ strDrinkThumb, strCategory }, index) => (
+            <Card
+              keyProp={ strDrinkThumb + index}
+              src={ strDrinkThumb }
+              strType={ strCategory }
+              dataTestId={ { container: `${index}-recomendation-card` } }
+            />
+          ))}
         </div>
         <Button
           className={ styles.StartButton }

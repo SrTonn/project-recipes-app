@@ -2,26 +2,32 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './styles.module.css';
 
-export default function Card({ key, index, src, strType }) {
+export default function Card({ keyProp, src, strType, dataTestId }) {
   return (
     <div
       className={ styles.Card }
-      key={ key }
-      data-testid={ `${index}-recipe-card` }
+      key={ keyProp }
+      data-testid={ dataTestId.container || null }
     >
       <img
         src={ src }
         alt={ `Imagem da receita ${strType}` }
-        data-testid={ `${index}-card-img` }
+        data-testid={ dataTestId.img || null }
       />
-      <p data-testid={ `${index}-card-name` }>{ strType }</p>
+      <p data-testid={ dataTestId.paragraph || null }>
+        { strType }
+      </p>
     </div>
   );
 }
 
 Card.propTypes = {
-  index: PropTypes.number.isRequired,
-  key: PropTypes.string.isRequired,
+  keyProp: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   strType: PropTypes.string.isRequired,
+  dataTestId: PropTypes.shape({
+    container: PropTypes.string,
+    img: PropTypes.string,
+    paragraph: PropTypes.string,
+  }).isRequired,
 };

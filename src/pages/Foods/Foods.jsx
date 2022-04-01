@@ -19,9 +19,13 @@ export default function Foods() {
             .map(({ strMeal, strMealThumb }, index) => (
               <Card
                 key={ strMeal }
-                index={ index }
                 src={ strMealThumb }
                 strType={ strMeal }
+                dataTestId={ {
+                  container: `${index}-recipe-card`,
+                  img: `${index}-card-img`,
+                  paragraph: `${index}-card-name`,
+                } }
               />
             ))
         )}
