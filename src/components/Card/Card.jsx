@@ -9,6 +9,7 @@ export default function Card({ keyProp, src, strType, dataTestId }) {
       key={ keyProp }
       data-testid={ dataTestId.container || null }
     >
+      {console.log('keyprop no card', keyProp)}
       <img
         src={ src }
         alt={ `Imagem da receita ${strType}` }
