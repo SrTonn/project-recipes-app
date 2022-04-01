@@ -6,7 +6,7 @@ import searchIcon from '../../images/searchIcon.svg';
 import styles from './styles.module.css';
 import formatTitle from '../../helpers/formatTitle';
 import Context from '../../context/Context';
-import BarraDeBusca from '../BarraDeBusca/BarraDeBusca';
+import SearchBar from '../SearchBar/SearchBar';
 
 export default function Header() {
   const { recipes } = useContext(Context);
@@ -67,7 +67,7 @@ export default function Header() {
             <img src={ searchIcon } alt="searchIcon" />
           </Button>)}
       </header>
-      { isVisible && (<BarraDeBusca />)}
+      { isVisible && (<SearchBar />)}
     </>
   );
 }

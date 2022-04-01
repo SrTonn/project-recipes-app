@@ -4,7 +4,7 @@ import Button from '../Button/Button';
 import styles from './styles.module.css';
 import Context from '../../context/Context';
 
-export default function BarraDeBusca() {
+export default function SearchBar() {
   const {
     setInputSearch,
     inputSearch,
@@ -59,7 +59,7 @@ export default function BarraDeBusca() {
         value={ inputSearch.inputValue }
         onChange={ ({ target }) => { handleChange(target); } }
       />
-      <div className={ styles.BarraDeBusca }>
+      <div className={ styles.SearchBar }>
         <label htmlFor="ingredient-search">
           <input
             className={ styles.RadioInput }

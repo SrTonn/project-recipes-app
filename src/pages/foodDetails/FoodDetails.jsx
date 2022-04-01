@@ -102,9 +102,9 @@ export default function FoodDetails() {
         <h3>Recommended</h3>
         <div className={ styles.CarroselContainer }>
           {/* cards com scroll horizontal data-testid="${index}-recomendation-card" */}
-          {recommendations?.map(({ strDrinkThumb, strCategory }, index) => (
+          {recommendations?.map(({ strDrinkThumb, strCategory, idDrink }, index) => (
             <Card
-              keyProp={ strDrinkThumb + index}
+              keyProp={ idDrink }
               src={ strDrinkThumb }
               strType={ strCategory }
               dataTestId={ { container: `${index}-recomendation-card` } }
