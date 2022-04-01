@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouteMatch } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import Button from '../../components/Button/Button';
 import styles from './styles.module.css';
 import favoriteIcon from '../../images/whiteHeartIcon.svg';
@@ -35,6 +36,11 @@ export default function FoodDetails() {
     console.log('ativou handleClick');
   };
 
+  const copyToClipboard = () => {
+    copy(`http://localhost:3000/drinks/${data.idDrink}`);
+    global.alert('Link copied!');
+  };
+
   if (!data) {
     return <p>Loading...</p>;
   }
@@ -50,7 +56,7 @@ export default function FoodDetails() {
       <main className={ styles.Main }>
         <div className={ styles.NameAndIconsContainer }>
           <h2 data-testid="recipe-title">{ data.strDrink }</h2>
-          <Button dataTestId="share-btn" handleClick={ handleClick } src="share-btn">
+          <Button dataTestId="share-btn" handleClick={ copyToClipboard } src="share-btn">
             <img src={ shareIcon } alt="Ícone de compartilhar" />
           </Button>
           <Button
