@@ -2,14 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './styles.module.css';
 
-export default function Card({ keyProp, src, strType, dataTestId }) {
+export default function Card({ src, strType, dataTestId }) {
   return (
     <div
       className={ styles.Card }
-      key={ keyProp }
       data-testid={ dataTestId.container || null }
     >
-      {console.log('keyprop no card', keyProp)}
       <img
         src={ src }
         alt={ `Imagem da receita ${strType}` }
@@ -23,7 +21,6 @@ export default function Card({ keyProp, src, strType, dataTestId }) {
 }
 
 Card.propTypes = {
-  keyProp: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   strType: PropTypes.string.isRequired,
   dataTestId: PropTypes.shape({

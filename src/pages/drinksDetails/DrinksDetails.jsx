@@ -78,15 +78,12 @@ export default function FoodDetails() {
         data-testid="instructions"
       >
         {data.strInstructions}
-
       </p>
       <h3>Recommended</h3>
       <div className={ styles.CarroselContainer }>
-          {/* cards com scroll horizontal data-testid="${index}-recomendation-card" */}
-          {console.log(recommendations)}
-          {recommendations?.map(({ strMealThumb, strCategory }, index) => (
+          {recommendations?.slice(0, 6).map(({ strMealThumb, strCategory, idMeal }, index) => (
             <Card
-              keyProp={ strMealThumb + index }
+              key={ idMeal }
               src={ strMealThumb }
               strType={ strCategory }
               dataTestId={ { container: `${index}-recomendation-card` } }
