@@ -25,6 +25,7 @@ export default function Provider({ children }) {
           setRecipes(recipesTreated.drinks);
         }
       }
+      console.log(recipes);
     })();
   }, [recipesInfo]);
 
