@@ -39,6 +39,7 @@ export default function FoodDetails() {
   }
   return (
     <>
+        {/* {console.log(data)} */}
       <img
         className={ styles.ImgHeader }
         src={ data.strDrinkThumb }
@@ -59,7 +60,7 @@ export default function FoodDetails() {
         data-testid="recipe-category"
         className={ styles.Category }
         >
-          { data.strCategory }</p>
+          { data.strAlcoholic }</p>
       <h3>Ingredients</h3>
       <div className={ styles.IngredientsContainer }>
         <ul>
