@@ -5,6 +5,7 @@ import favoriteIcon from '../../images/whiteHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 // import favoritedIcon from '../../../images/blackHeartIcon.svg';
 import styles from './styles.module.css';
+import reduceIngredients from '../../services/reduceIngredients';
 
 export default function FoodDetails() {
   const { params: { id } } = useRouteMatch();
@@ -47,7 +48,13 @@ export default function FoodDetails() {
       <h3>Ingredients</h3>
       <div>
         <ul>
-          { /* map  data-testid="${index}-ingredient-name-and-measure" */ }
+          {reduceIngredients(data).map((value, index) => (
+            <li
+              key={ value }
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {value}
+            </li>))}
         </ul>
       </div>
       <h3>Instructions</h3>
