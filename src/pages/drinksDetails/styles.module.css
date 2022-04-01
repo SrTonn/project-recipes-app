@@ -1,1 +1,12 @@
-/* lint '-' */
+.StartButton {
+    background-color: rgba(108, 227, 79, 1);
+    border-color: transparent;
+    bottom: 0px;
+    margin-bottom: 1%;
+    color: #212529;
+    font-size: 30px;
+    font-weight: 500;
+    height: 76px;
+    position: fixed;
+    width: 339px;
+  }
