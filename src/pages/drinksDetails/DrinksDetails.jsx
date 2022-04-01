@@ -29,7 +29,7 @@ export default function FoodDetails() {
       console.log(meals);
       setRecommendations(meals);
     })();
-  }, []);
+  }, [id]);
 
   const handleClick = () => {
     console.log('ativou handleClick');

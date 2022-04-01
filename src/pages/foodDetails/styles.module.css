@@ -20,8 +20,6 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
 }
 
 .Title {
-
-  /* font-weight: 400 , regular; */
   line-height: 35.16px;
   size : 30px;
 }
@@ -67,12 +65,12 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
 .StartButton {
   background-color: rgba(108, 227, 79, 1);
   border-color: transparent;
-  bottom: 0px;
-  margin-bottom: 1%;
+  bottom: 0;
   color: #212529;
   font-size: 30px;
   font-weight: 500;
   height: 76px;
+  margin-bottom: 1%;
   position: fixed;
   width: 339px;
 }
