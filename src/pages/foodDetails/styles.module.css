@@ -9,6 +9,7 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
 
 .Main {
   gap: 2px;
+  margin-bottom: 80px;
   padding: 8px;
 }
 
@@ -66,9 +67,11 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
 .StartButton {
   background-color: rgba(108, 227, 79, 1);
   border-color: transparent;
+  bottom: 1%;
   color: #212529;
   font-size: 30px;
   font-weight: 500;
   height: 76px;
+  position: fixed;
   width: 339px;
 }
