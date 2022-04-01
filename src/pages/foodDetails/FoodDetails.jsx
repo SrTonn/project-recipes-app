@@ -103,12 +103,13 @@ export default function FoodDetails() {
         <h3>Recommended</h3>
         <div className={ styles.CarroselContainer }>
           {recommendations?.slice(0, MAX_RECOMMENDATION)
-            .map(({ strDrinkThumb, strCategory, idDrink }, index) => (
+            .map(({ strDrinkThumb, strAlcoholic, idDrink, strDrink }, index) => (
               <Card
                 key={ idDrink }
                 index={ index }
                 src={ strDrinkThumb }
-                strType={ strCategory }
+                strType={ strAlcoholic }
+                name={ strDrink }
                 dataTestId={ { container: '-recomendation-card' } }
               />
             ))}
