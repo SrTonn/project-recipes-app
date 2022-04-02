@@ -5,9 +5,9 @@ import Button from '../../components/Button/Button';
 import styles from './styles.module.css';
 import favoriteIcon from '../../images/whiteHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
-import reduceIngredients from '../../services/reduceIngredients';
 import getRecipes from '../../services/fetchRecipes';
 import Card from '../../components/Card/Card';
+import reduceIngredients from '../../helpers/reduceIngredients';
 
 export default function FoodDetails() {
   const { params: { id } } = useRouteMatch();

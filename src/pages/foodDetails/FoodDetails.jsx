@@ -6,9 +6,9 @@ import favoriteIcon from '../../images/whiteHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 // import favoritedIcon from '../../../images/blackHeartIcon.svg';
 import styles from './styles.module.css';
-import reduceIngredients from '../../services/reduceIngredients';
 import getRecipes from '../../services/fetchRecipes';
 import Card from '../../components/Card/Card';
+import reduceIngredients from '../../helpers/reduceIngredients';
 // import Card from '../../components/Card/Card';
 
 export default function FoodDetails() {
