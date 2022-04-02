@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import copy from 'clipboard-copy';
+import toast, { Toaster } from 'react-hot-toast';
 import Button from '../../components/Button/Button';
 import styles from './styles.module.css';
 import favoriteIcon from '../../images/whiteHeartIcon.svg';
@@ -38,7 +39,7 @@ export default function FoodDetails() {
 
   const copyToClipboard = () => {
     copy(`http://localhost:3000/drinks/${data.idDrink}`);
-    global.alert('Link copied!');
+    toast.success('Link copied!');
   };
 
   if (!data) {
@@ -46,7 +47,7 @@ export default function FoodDetails() {
   }
   return (
     <>
-      {/* {console.log(data)} */}
+      <div><Toaster /></div>
       <img
         className={ styles.ImgHeader }
         src={ data.strDrinkThumb }
@@ -94,17 +95,22 @@ export default function FoodDetails() {
           {data.strInstructions}
         </p>
         <h3>Recommended</h3>
-        <div className={ styles.CarroselContainer }>
+        <div className={ styles.CardsContainer }>
           {recommendations?.slice(0, MAX_RECOMMENDATION)
-            .map(({ strMealThumb, strCategory, idMeal, strMeals }, index) => (
+            .map(({ strMealThumb, strCategory, idMeal, strMeal }, index) => (
               <Card
                 key={ idMeal }
+                className={ styles.Card }
                 index={ index }
                 src={ strMealThumb }
                 strType={ strCategory }
-                name={ strMeals }
-                dataTestId={ { container: '-recomendation-card' } }
+                name={ strMeal }
+                dataTestId={ {
+                  container: '-recomendation-card',
+                  paragraph: '-recomendation-title',
+                } }
               />
+
             ))}
         </div>
         <Button
