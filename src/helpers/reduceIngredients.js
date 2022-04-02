@@ -9,7 +9,9 @@ const reduceIngredients = (data) => Object.entries(data)
     }
 
     if (arr.length - 1 === index) {
-      return acc[0].map((item, mapIndex) => `${item} - ${acc[1][mapIndex]}`.trim());
+      return acc[0]
+        .map((item, mapIndex) => `${item} - ${acc[1][mapIndex]}`.trim())
+        .filter((value) => !value.includes('undefined'));
     }
 
     return acc;
