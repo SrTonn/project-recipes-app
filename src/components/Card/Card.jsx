@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './styles.module.css';
 
-export default function Card({ src, index, strType, dataTestId, name }) {
+export default function Card({ className, src, index, strType, dataTestId, name }) {
   return (
     <div
-      className={ styles.Card }
+      className={ className || styles.Card }
       data-testid={ dataTestId.container ? index + dataTestId.container : null }
     >
       <img
@@ -17,17 +17,20 @@ export default function Card({ src, index, strType, dataTestId, name }) {
       <p data-testid={ dataTestId.paragraph ? index + dataTestId.paragraph : null }>
         { name }
       </p>
+      {console.log('name=>', name)}
     </div>
   );
 }
 
 Card.defaultProps = {
   strType: null,
+  className: null,
 };
 
 Card.propTypes = {
   index: PropTypes.number.isRequired,
   src: PropTypes.string.isRequired,
+  className: PropTypes.string,
   name: PropTypes.string.isRequired,
   strType: PropTypes.string,
   dataTestId: PropTypes.shape({
