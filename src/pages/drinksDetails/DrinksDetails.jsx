@@ -15,7 +15,8 @@ export default function FoodDetails() {
   const { params: { id } } = useRouteMatch();
   const [data, setData] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
-  const [isFavorite, setFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favoritedRecipes, setFavoritedRecipes] = useState([]);
   const MAX_RECOMMENDATION = 6;
 
   useEffect(() => {
@@ -36,9 +37,10 @@ export default function FoodDetails() {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     console.log(favoriteRecipes);
     if (favoriteRecipes) {
+      setFavoritedRecipes(favoriteRecipes);
       const filteredFavorites = favoriteRecipes.some((recipe) => recipe.id === id);
       if (filteredFavorites) {
-        setFavorite(true);
+        setIsFavorite(true);
       }
     }
   }, [id]);
@@ -52,13 +54,22 @@ export default function FoodDetails() {
       alcoholicOrNot: data.strAlcoholic,
       name: data.strDrink,
       image: data.strDrinkThumb }]));
-    setFavorite((prevState) => !prevState);
+    setIsFavorite((prevState) => !prevState);
+  };
+
+  const removeFavorite = () => {
+    const newFavorited = favoritedRecipes.filter((recipe) => recipe.id !== id);
+    localStorage.setItem('favoriteRecipes', newFavorited);
   };
 
   const handleClick = () => {
     console.log('ativou handleClick');
     console.log(data);
-    favoriteThisRecipe();
+    if (isFavorite) {
+      removeFavorite();
+    } else {
+      favoriteThisRecipe();
+    }
   };
 
   const copyToClipboard = () => {
@@ -100,7 +111,6 @@ export default function FoodDetails() {
           className={ styles.Category }
         >
           { data.strAlcoholic }
-
         </p>
         <h3>Ingredients</h3>
         <div className={ styles.IngredientsContainer }>
