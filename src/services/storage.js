@@ -14,4 +14,8 @@ const filterItemsById = (key, id) => {
   localStorage.setItem(key, JSON.stringify(newValue));
 };
 
-export { updateStorage, filterItemsById };
+const loadStorage = (key) => JSON.parse(localStorage.getItem(key));
+
+const newStorage = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+
+export { updateStorage, filterItemsById, loadStorage, newStorage };

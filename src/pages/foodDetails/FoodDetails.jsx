@@ -10,7 +10,11 @@ import styles from '../../styles/pageDetails.module.css';
 import getRecipes from '../../services/fetchRecipes';
 import Card from '../../components/Card/Card';
 import reduceIngredients from '../../helpers/reduceIngredients';
-import { updateStorage, filterItemsById } from '../../services/storage';
+import { updateStorage,
+  filterItemsById,
+  loadStorage,
+  newStorage,
+} from '../../services/storage';
 
 export default function FoodDetails() {
   const { params: { id }, url } = useRouteMatch();
@@ -18,6 +22,7 @@ export default function FoodDetails() {
   const [data, setData] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isStartedRecipe, setIsStartedRecipe] = useState(false);
   const MAX_RECOMMENDATION = 6;
 
   useEffect(() => {
@@ -34,6 +39,17 @@ export default function FoodDetails() {
       setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === id));
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
+    const inProgressRecipes = loadStorage('inProgressRecipes');
+    if (inProgressRecipes) {
+      const isRecipeInProgress = Object.keys(inProgressRecipes.meals)
+        .some((cocktailId) => cocktailId === id);
+      setIsStartedRecipe(isRecipeInProgress);
+    } else {
+      newStorage('inProgressRecipes', {
+        cocktails: {},
+        meals: {},
+      });
     }
   }, [id]);
 
@@ -55,15 +71,15 @@ export default function FoodDetails() {
     setIsFavorite(false);
   };
 
-  const handleClick = ({ name }) => {
-    if (name === 'favorite-btn') {
-      if (isFavorite) {
-        removeFavorite();
-      } else {
-        favoriteThisRecipe();
-      }
+  const handleClick = () => {
+    if (isFavorite) {
+      removeFavorite();
       return;
     }
+    favoriteThisRecipe();
+  };
+
+  const redirect = () => {
     push(`${url}/in-progress`);
   };
 
@@ -104,7 +120,7 @@ export default function FoodDetails() {
               data-testid="favorite-btn"
               src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
               alt="Favorite Icon"
-              onClick={ ({ target }) => handleClick(target) }
+              onClick={ handleClick }
             />
           </div>
         </div>
@@ -169,11 +185,10 @@ export default function FoodDetails() {
             ))}
         </div>
         <Button
-          name="start-recipe-btn"
           className={ styles.StartButton }
           dataTestId="start-recipe-btn"
-          buttonName="Start Recipe"
-          handleClick={ handleClick }
+          buttonName={ isStartedRecipe ? 'Continue Recipe' : 'Start Recipe' }
+          handleClick={ redirect }
         />
       </main>
     </>
