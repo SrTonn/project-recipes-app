@@ -10,14 +10,13 @@ import styles from '../../styles/pageDetails.module.css';
 import getRecipes from '../../services/fetchRecipes';
 import Card from '../../components/Card/Card';
 import reduceIngredients from '../../helpers/reduceIngredients';
-// import Card from '../../components/Card/Card';
+import { updateStorage, filterItemsById } from '../../services/storage';
 
 export default function FoodDetails() {
   const { params: { id } } = useRouteMatch();
   const [data, setData] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [favoritedRecipes, setFavoritedRecipes] = useState([]);
   const MAX_RECOMMENDATION = 6;
 
   useEffect(() => {
@@ -31,29 +30,28 @@ export default function FoodDetails() {
     })();
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (favoriteRecipes) {
-      setFavoritedRecipes(favoriteRecipes);
-      const filteredFavorites = favoriteRecipes.some((recipe) => recipe.id === id);
-      if (filteredFavorites) {
-        setIsFavorite(true);
-      }
+      setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === id));
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     }
   }, [id]);
 
   const favoriteThisRecipe = () => {
-    localStorage.setItem('favoriteRecipes', JSON.stringify([{
+    updateStorage('favoriteRecipes', {
       id: data.idMeal,
       type: 'food',
       nationality: data.strArea,
       category: data.strCategory,
       alcoholicOrNot: '',
       name: data.strMeal,
-      image: data.strMealThumb }]));
-    setIsFavorite((prevState) => !prevState);
+      image: data.strMealThumb,
+    });
+    setIsFavorite(true);
   };
 
   const removeFavorite = () => {
-    const newFavorited = favoritedRecipes.filter((recipe) => recipe.id !== id);
-    localStorage.setItem('favoriteRecipes', newFavorited);
+    filterItemsById('favoriteRecipes', id);
+    setIsFavorite(false);
   };
 
   const handleClick = () => {
@@ -85,10 +83,16 @@ export default function FoodDetails() {
       <main className={ styles.Main }>
         <div className={ styles.NameAndIconsContainer }>
           <h2 data-testid="recipe-title" className={ styles.Title }>{data.strMeal}</h2>
-          <Button dataTestId="share-btn" src="share-btn" handleClick={ copyToClipboard }>
+          <Button
+            className={ styles.ButtonShare }
+            dataTestId="share-btn"
+            src="share-btn"
+            handleClick={ copyToClipboard }
+          >
             <img src={ shareIcon } alt="Ícone de compartilhar" />
           </Button>
           <Button
+            className={ styles.ButtonFavorite }
             dataTestId="favorite-btn"
             handleClick={ handleClick }
             src="favorite-btn"

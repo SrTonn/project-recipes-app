@@ -10,13 +10,13 @@ import getRecipes from '../../services/fetchRecipes';
 import Card from '../../components/Card/Card';
 import reduceIngredients from '../../helpers/reduceIngredients';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import { updateStorage, filterItemsById } from '../../services/storage';
 
 export default function FoodDetails() {
   const { params: { id } } = useRouteMatch();
   const [data, setData] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [favoritedRecipes, setFavoritedRecipes] = useState([]);
   const MAX_RECOMMENDATION = 6;
 
   useEffect(() => {
@@ -35,16 +35,16 @@ export default function FoodDetails() {
     })();
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (favoriteRecipes) {
-      setFavoritedRecipes(favoriteRecipes);
-      const filteredFavorites = favoriteRecipes.some((recipe) => recipe.id === id);
-      if (filteredFavorites) {
-        setIsFavorite(true);
-      }
+      const seila = favoriteRecipes.some((recipe) => recipe.id === id);
+      console.log('é favorito?=>', seila);
+      setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === id));
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     }
   }, [id]);
 
   const favoriteThisRecipe = () => {
-    localStorage.setItem('favoriteRecipes', JSON.stringify([{
+    updateStorage('favoriteRecipes', {
       id: data.idDrink,
       type: 'drink',
       nationality: '',
@@ -52,13 +52,13 @@ export default function FoodDetails() {
       alcoholicOrNot: data.strAlcoholic,
       name: data.strDrink,
       image: data.strDrinkThumb,
-    }]));
-    setIsFavorite((prevState) => !prevState);
+    });
+    setIsFavorite(true);
   };
 
   const removeFavorite = () => {
-    const newFavorited = favoritedRecipes.filter((recipe) => recipe.id !== id);
-    localStorage.setItem('favoriteRecipes', newFavorited);
+    filterItemsById('favoriteRecipes', id);
+    setIsFavorite(false);
   };
 
   const handleClick = () => {
@@ -89,10 +89,16 @@ export default function FoodDetails() {
       <main className={ styles.Main }>
         <div className={ styles.NameAndIconsContainer }>
           <h2 data-testid="recipe-title">{ data.strDrink }</h2>
-          <Button dataTestId="share-btn" handleClick={ copyToClipboard } src="share-btn">
+          <Button
+            className={ styles.ButtonShare }
+            dataTestId="share-btn"
+            handleClick={ copyToClipboard }
+            src="share-btn"
+          >
             <img src={ shareIcon } alt="Ícone de compartilhar" />
           </Button>
           <Button
+            className={ styles.ButtonFavorite }
             dataTestId="favorite-btn"
             handleClick={ handleClick }
             src="favorite-btn"
