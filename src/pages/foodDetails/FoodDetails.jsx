@@ -3,9 +3,9 @@ import { useRouteMatch } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import toast, { Toaster } from 'react-hot-toast';
 import Button from '../../components/Button/Button';
-import favoriteIcon from '../../images/whiteHeartIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
-// import favoritedIcon from '../../../images/blackHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import styles from './styles.module.css';
 import getRecipes from '../../services/fetchRecipes';
 import Card from '../../components/Card/Card';
@@ -16,6 +16,7 @@ export default function FoodDetails() {
   const { params: { id } } = useRouteMatch();
   const [data, setData] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
+  const [isFavorite, setFavorite] = useState(false);
   const MAX_RECOMMENDATION = 6;
 
   useEffect(() => {
@@ -29,9 +30,23 @@ export default function FoodDetails() {
     })();
   }, [id]);
 
+  const favoriteThisRecipe = () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify([{
+      id: data.idMeal,
+      type: 'food',
+      nationality: data.strArea,
+      category: data.strCategory,
+      alcoholicOrNot: '',
+      name: data.strMeal,
+      image: data.strMealThumb }]));
+    setFavorite((prevState) => !prevState);
+  };
+
   const handleClick = () => {
     console.log('ativou handleClick');
     console.log(recommendations);
+    console.log(data);
+    favoriteThisRecipe();
   };
 
   const copyToClipboard = () => {
@@ -63,7 +78,10 @@ export default function FoodDetails() {
             handleClick={ handleClick }
             src="favorite-btn"
           >
-            <img src={ favoriteIcon } alt="Ícone de favorito" />
+            <img
+              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="Ícone de favorito"
+            />
           </Button>
         </div>
         <p

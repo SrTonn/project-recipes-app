@@ -4,16 +4,18 @@ import copy from 'clipboard-copy';
 import toast, { Toaster } from 'react-hot-toast';
 import Button from '../../components/Button/Button';
 import styles from './styles.module.css';
-import favoriteIcon from '../../images/whiteHeartIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import getRecipes from '../../services/fetchRecipes';
 import Card from '../../components/Card/Card';
 import reduceIngredients from '../../helpers/reduceIngredients';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
 export default function FoodDetails() {
   const { params: { id } } = useRouteMatch();
   const [data, setData] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
+  const [isFavorite, setFavorite] = useState(false);
   const MAX_RECOMMENDATION = 6;
 
   useEffect(() => {
@@ -31,10 +33,32 @@ export default function FoodDetails() {
       console.log(meals);
       setRecommendations(meals);
     })();
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    console.log(favoriteRecipes);
+    if (favoriteRecipes) {
+      const filteredFavorites = favoriteRecipes.some((recipe) => recipe.id === id);
+      if (filteredFavorites) {
+        setFavorite(true);
+      }
+    }
   }, [id]);
+
+  const favoriteThisRecipe = () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify([{
+      id: data.idDrink,
+      type: 'drink',
+      nationality: '',
+      category: data.strCategory,
+      alcoholicOrNot: data.strAlcoholic,
+      name: data.strDrink,
+      image: data.strDrinkThumb }]));
+    setFavorite((prevState) => !prevState);
+  };
 
   const handleClick = () => {
     console.log('ativou handleClick');
+    console.log(data);
+    favoriteThisRecipe();
   };
 
   const copyToClipboard = () => {
@@ -65,7 +89,10 @@ export default function FoodDetails() {
             handleClick={ handleClick }
             src="favorite-btn"
           >
-            <img src={ favoriteIcon } alt="Ícone de favorito" />
+            <img
+              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="Ícone de favorito"
+            />
           </Button>
         </div>
         <p
