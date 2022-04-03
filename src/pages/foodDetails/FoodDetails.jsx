@@ -6,7 +6,7 @@ import Button from '../../components/Button/Button';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
-import styles from './styles.module.css';
+import styles from '../../styles/pageDetails.module.css';
 import getRecipes from '../../services/fetchRecipes';
 import Card from '../../components/Card/Card';
 import reduceIngredients from '../../helpers/reduceIngredients';

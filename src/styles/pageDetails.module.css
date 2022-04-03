@@ -24,6 +24,15 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
   size : 30px;
 }
 
+.ButtonShare, .ButtonFavorite {
+  background-color: transparent;
+  border: none;
+}
+
+.ButtonFavorite img {
+  height: 26px;
+}
+
 .Category {
   color: darkgray;
   line-height: 2px;

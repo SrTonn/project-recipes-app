@@ -3,7 +3,7 @@ import { useRouteMatch } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import toast, { Toaster } from 'react-hot-toast';
 import Button from '../../components/Button/Button';
-import styles from './styles.module.css';
+import styles from '../../styles/pageDetails.module.css';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import shareIcon from '../../images/shareIcon.svg';
 import getRecipes from '../../services/fetchRecipes';
