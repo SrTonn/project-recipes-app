@@ -30,7 +30,6 @@ export default function FoodDetails() {
       setRecommendations(drinks);
     })();
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    console.log(favoriteRecipes);
     if (favoriteRecipes) {
       setFavoritedRecipes(favoriteRecipes);
       const filteredFavorites = favoriteRecipes.some((recipe) => recipe.id === id);
@@ -58,9 +57,6 @@ export default function FoodDetails() {
   };
 
   const handleClick = () => {
-    console.log('ativou handleClick');
-    console.log(recommendations);
-    console.log(data);
     if (isFavorite) {
       removeFavorite();
     } else {

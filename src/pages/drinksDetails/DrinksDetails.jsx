@@ -31,11 +31,9 @@ export default function FoodDetails() {
     })();
     (async () => {
       const { meals } = await getRecipes('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-      console.log(meals);
       setRecommendations(meals);
     })();
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    console.log(favoriteRecipes);
     if (favoriteRecipes) {
       setFavoritedRecipes(favoriteRecipes);
       const filteredFavorites = favoriteRecipes.some((recipe) => recipe.id === id);
@@ -53,7 +51,8 @@ export default function FoodDetails() {
       category: data.strCategory,
       alcoholicOrNot: data.strAlcoholic,
       name: data.strDrink,
-      image: data.strDrinkThumb }]));
+      image: data.strDrinkThumb,
+    }]));
     setIsFavorite((prevState) => !prevState);
   };
 
@@ -63,8 +62,6 @@ export default function FoodDetails() {
   };
 
   const handleClick = () => {
-    console.log('ativou handleClick');
-    console.log(data);
     if (isFavorite) {
       removeFavorite();
     } else {

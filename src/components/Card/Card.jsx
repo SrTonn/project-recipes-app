@@ -17,7 +17,6 @@ export default function Card({ className, src, index, strType, dataTestId, name 
       <p data-testid={ dataTestId.paragraph ? index + dataTestId.paragraph : null }>
         { name }
       </p>
-      {console.log('name=>', name)}
     </div>
   );
 }
