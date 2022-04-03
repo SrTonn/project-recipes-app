@@ -21,7 +21,7 @@ export default function FoodDetails() {
   useEffect(() => {
     (async () => {
       const { meals } = await getRecipes(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-      setData(meals.at(0));
+      setData(meals[0]);
     })();
     (async () => {
       const { drinks } = await getRecipes('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');

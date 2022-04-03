@@ -21,7 +21,7 @@ export default function FoodDetails() {
       try {
         const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
         const { drinks } = await response.json();
-        setData(drinks.at(0));
+        setData(drinks[0]);
       } catch (error) {
         console.error(error);
       }
