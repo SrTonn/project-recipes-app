@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import toast, { Toaster } from 'react-hot-toast';
 import Button from '../../components/Button/Button';
@@ -13,7 +13,8 @@ import reduceIngredients from '../../helpers/reduceIngredients';
 import { updateStorage, filterItemsById } from '../../services/storage';
 
 export default function FoodDetails() {
-  const { params: { id } } = useRouteMatch();
+  const { params: { id }, url } = useRouteMatch();
+  const { push } = useHistory();
   const [data, setData] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -54,12 +55,16 @@ export default function FoodDetails() {
     setIsFavorite(false);
   };
 
-  const handleClick = () => {
-    if (isFavorite) {
-      removeFavorite();
-    } else {
-      favoriteThisRecipe();
+  const handleClick = ({ name }) => {
+    if (name === 'favorite-btn') {
+      if (isFavorite) {
+        removeFavorite();
+      } else {
+        favoriteThisRecipe();
+      }
+      return;
     }
+    push(`${url}/in-progress`);
   };
 
   const copyToClipboard = () => {
@@ -93,12 +98,13 @@ export default function FoodDetails() {
               onClick={ copyToClipboard }
             />
             <input
+              name="favorite-btn"
               className={ styles.ButtonFavorite }
               type="image"
               data-testid="favorite-btn"
               src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
               alt="Favorite Icon"
-              onClick={ handleClick }
+              onClick={ ({ target }) => handleClick(target) }
             />
           </div>
         </div>
@@ -163,6 +169,7 @@ export default function FoodDetails() {
             ))}
         </div>
         <Button
+          name="start-recipe-btn"
           className={ styles.StartButton }
           dataTestId="start-recipe-btn"
           buttonName="Start Recipe"

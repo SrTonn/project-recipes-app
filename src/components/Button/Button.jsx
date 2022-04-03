@@ -8,11 +8,13 @@ export default function Button({
   dataTestId,
   children,
   buttonName,
+  name,
   type,
   src,
 }) {
   return (
     <button
+      name={ name }
       className={ className }
       type={ type === 'button' ? 'button' : 'submit' }
       onClick={ ({ target }) => handleClick(target) }
@@ -32,10 +34,12 @@ Button.defaultProps = {
   src: null,
   children: null,
   buttonName: '',
+  name: '',
 };
 
 Button.propTypes = {
   handleClick: PropTypes.func.isRequired,
+  name: PropTypes.string,
   className: PropTypes.string,
   isDisabled: PropTypes.bool,
   dataTestId: PropTypes.string.isRequired,
