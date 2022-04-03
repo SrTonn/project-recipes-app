@@ -89,25 +89,24 @@ export default function FoodDetails() {
       <main className={ styles.Main }>
         <div className={ styles.NameAndIconsContainer }>
           <h2 data-testid="recipe-title">{ data.strDrink }</h2>
-          <Button
-            className={ styles.ButtonShare }
-            dataTestId="share-btn"
-            handleClick={ copyToClipboard }
-            src="share-btn"
-          >
-            <img src={ shareIcon } alt="Ícone de compartilhar" />
-          </Button>
-          <Button
-            className={ styles.ButtonFavorite }
-            dataTestId="favorite-btn"
-            handleClick={ handleClick }
-            src="favorite-btn"
-          >
-            <img
-              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-              alt="Ícone de favorito"
+          <div className={ styles.ShareAndFavoriteContainer }>
+            <input
+              className={ styles.ButtonShare }
+              type="image"
+              data-testid="share-btn"
+              src={ shareIcon }
+              alt="Share Icon"
+              onClick={ copyToClipboard }
             />
-          </Button>
+            <input
+              className={ styles.ButtonFavorite }
+              type="image"
+              data-testid="favorite-btn"
+              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="Favorite Icon"
+              onClick={ handleClick }
+            />
+          </div>
         </div>
         <p
           data-testid="recipe-category"
