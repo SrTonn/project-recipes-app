@@ -54,8 +54,20 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
   padding: 5px;
 }
 
+.IngredientsContainer label {
+  display: block;
+}
+
+.IngredientsContainer label input:first-child {
+  margin-right: 5px;
+}
+
 .IngredientsContainer li {
   list-style-type: none;
+}
+
+.IngredientsContainer label li {
+  display: inline-block;
 }
 
 .IngredientsContainer li:first-letter {
