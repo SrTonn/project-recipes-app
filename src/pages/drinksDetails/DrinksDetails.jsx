@@ -120,7 +120,7 @@ export default function FoodDetails() {
             />
             <input
               name="favorite-btn"
-              className={ styles.ButtonFavorite }
+              className={ isFavorite ? styles.FavoriteActive : styles.Favorite }
               type="image"
               data-testid="favorite-btn"
               src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
