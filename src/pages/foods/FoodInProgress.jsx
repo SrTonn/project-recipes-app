@@ -9,21 +9,20 @@ import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import styles from '../../styles/pageDetails.module.css';
 import getRecipes from '../../services/fetchRecipes';
 import reduceIngredients from '../../helpers/reduceIngredients';
-import {
-  checkRecipeInProgress,
-  createIdInProgressRecipe,
-  filterItemsById,
-  loadStorage,
-  newStorage,
-  updateStorage,
-} from '../../services/storage';
+import { filterItemsById, updateStorage } from '../../services/storage';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 export default function FoodInProgress() {
   const { params: { id } } = useRouteMatch();
   const { push } = useHistory();
   const [data, setData] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [progressRecipes, setProgressRecipes] = useState([]);
+  const [inProgressRecipes, setInProgressRecipes] = useLocalStorage(
+    'inProgressRecipes', {
+      cocktails: {},
+      meals: { [id]: [] },
+    },
+  );
 
   useEffect(() => {
     (async () => {
@@ -36,7 +35,6 @@ export default function FoodInProgress() {
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     }
-    setProgressRecipes(checkRecipeInProgress('inProgressRecipes', 'meals', id));
   }, [id]);
 
   const favoriteThisRecipe = () => {
@@ -75,8 +73,6 @@ export default function FoodInProgress() {
   };
 
   const handleChange = ({ name, checked }) => {
-    createIdInProgressRecipe('meals', id);
-    const inProgressRecipes = loadStorage('inProgressRecipes');
     const mealList = inProgressRecipes.meals[id];
     const index = mealList.indexOf(name);
     if (!checked && index >= 0) {
@@ -84,8 +80,7 @@ export default function FoodInProgress() {
     } else if (checked && mealList) {
       mealList.push(name);
     }
-    newStorage('inProgressRecipes', inProgressRecipes);
-    setProgressRecipes(mealList);
+    setInProgressRecipes({ ...inProgressRecipes });
   };
 
   if (!data) {
@@ -143,7 +138,10 @@ export default function FoodInProgress() {
                   type="checkbox"
                   id={ value }
                   name={ value }
-                  checked={ progressRecipes.some((recipe) => recipe === value) }
+                  checked={
+                    inProgressRecipes?.meals[id]
+                      ?.some((recipe) => recipe === value)
+                  }
                   onChange={ ({ target }) => handleChange(target) }
                 />
                 <li>{value}</li>
@@ -162,6 +160,9 @@ export default function FoodInProgress() {
           className={ styles.StartButton }
           dataTestId="finish-recipe-btn"
           buttonName="Finish Recipe"
+          isDisabled={
+            reduceIngredients(data).length !== inProgressRecipes.meals[id].length
+          }
           handleClick={ redirect }
         />
       </main>
