@@ -82,8 +82,10 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
   font-size: 30px;
   font-weight: 500;
   height: 76px;
-  margin-bottom: 1%;
+  left: 50vw;
+  margin-bottom: 2%;
   position: fixed;
+  transform: translateX(-50%);
   width: 339px;
 }
 
