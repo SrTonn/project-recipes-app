@@ -1,5 +1,5 @@
 import React from 'react';
-// import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import Button from '../../components/Button/Button';
@@ -53,7 +53,7 @@ export default function FavoriteRecipes() {
 
   return (
     <main>
-      {/* <div><Toaster /></div> */}
+      <div><Toaster /></div>
       <Header />
       <section className={ styles.FavoriteRecipes }>
         <Button
