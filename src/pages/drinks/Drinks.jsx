@@ -3,6 +3,7 @@ import Header from '../../components/Header/Header';
 import Context from '../../context/Context';
 import Footer from '../../components/Footer/Footer';
 import Card from '../../components/Card/Card';
+import Categories from '../../components/CategoriesFilter/Categories';
 
 export default function Drinks() {
   const { recipes, setRecipesInfo } = useContext(Context);
@@ -19,6 +20,7 @@ export default function Drinks() {
   return (
     <>
       <Header />
+      <Categories />
       <main>
         {recipes?.length > 0
           && (recipes

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Card from '../../components/Card/Card';
+import Categories from '../../components/CategoriesFilter/Categories';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import Context from '../../context/Context';
@@ -21,6 +22,7 @@ export default function Foods() {
   return (
     <>
       <Header />
+      <Categories />
       <main className={ styles.Main }>
         {recipes?.length > 0 && (
           recipes
