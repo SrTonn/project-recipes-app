@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Login from '../pages/login/Login';
-import DoneRecipes from '../pages/DoneRecipes';
+import DoneRecipes from '../pages/DoneRecipes/DoneRecipes';
 import Explore from '../pages/explore/Explore';
 import ExploreDrinksIngredients from '../pages/explore/ExploreDrinksIngredients';
 import ExploreNationalities from '../pages/explore/ExploreNationalities';
-import FavoriteRecipes from '../pages/FavoriteRecipes';
+import FavoriteRecipes from '../pages/FavoriteRecipes/FavoriteRecipes';
 import NotFound from '../pages/NotFound';
 import Profile from '../pages/Profile';
 import ExploreFoodsIngredients from '../pages/explore/ExploreFoodsIngredients';
