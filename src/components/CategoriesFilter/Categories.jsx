@@ -20,7 +20,6 @@ export default function Categories() {
         .map((category) => category.strCategory)
         .slice(0, FIRST_SIX_CATEGORIES);
       setCategories(slicedCategories);
-      console.log(slicedCategories);
     })();
   }, []);
 
