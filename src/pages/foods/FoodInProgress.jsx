@@ -9,7 +9,11 @@ import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import styles from '../../styles/pageDetails.module.css';
 import getRecipes from '../../services/fetchRecipes';
 import reduceIngredients from '../../helpers/reduceIngredients';
-import { filterItemsById, updateStorage } from '../../services/storage';
+import {
+  checkFavoriteRecipes,
+  filterItemsById,
+  updateStorage,
+} from '../../services/storage';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
 export default function FoodInProgress() {
@@ -29,12 +33,7 @@ export default function FoodInProgress() {
       const { meals } = await getRecipes(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       setData(meals[0]);
     })();
-    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (favoriteRecipes) {
-      setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === id));
-    } else {
-      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
-    }
+    setIsFavorite(checkFavoriteRecipes('favoriteRecipes', id));
   }, [id]);
 
   const favoriteThisRecipe = () => {
@@ -73,14 +72,24 @@ export default function FoodInProgress() {
   };
 
   const handleChange = ({ name, checked }) => {
-    const mealList = inProgressRecipes.meals[id];
-    const index = mealList.indexOf(name);
-    if (!checked && index >= 0) {
+    if (!inProgressRecipes.meals[id]) {
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        meals: { [id]: [name] },
+      });
+      return;
+    }
+    const originalRecipes = JSON.parse(JSON.stringify(inProgressRecipes));
+    const mealList = originalRecipes.meals[id];
+    const index = mealList?.indexOf(name);
+    if (!checked) {
       mealList.splice(index, 1);
-    } else if (checked && mealList) {
+      if (mealList.length === 0) delete originalRecipes.meals[id];
+      setInProgressRecipes({});
+    } else if (checked) {
       mealList.push(name);
     }
-    setInProgressRecipes({ ...inProgressRecipes });
+    setInProgressRecipes({ ...originalRecipes });
   };
 
   if (!data) {
@@ -161,7 +170,7 @@ export default function FoodInProgress() {
           dataTestId="finish-recipe-btn"
           buttonName="Finish Recipe"
           isDisabled={
-            reduceIngredients(data).length !== inProgressRecipes.meals[id].length
+            reduceIngredients(data).length !== inProgressRecipes.meals[id]?.length
           }
           handleClick={ redirect }
         />

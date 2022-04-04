@@ -9,7 +9,11 @@ import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import styles from '../../styles/pageDetails.module.css';
 import getRecipes from '../../services/fetchRecipes';
 import reduceIngredients from '../../helpers/reduceIngredients';
-import { updateStorage, filterItemsById } from '../../services/storage';
+import {
+  updateStorage,
+  filterItemsById,
+  checkFavoriteRecipes,
+} from '../../services/storage';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
 export default function DrinkInProgress() {
@@ -29,12 +33,7 @@ export default function DrinkInProgress() {
       const { drinks } = await getRecipes(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
       setData(drinks[0]);
     })();
-    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (favoriteRecipes) {
-      setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === id));
-    } else {
-      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
-    }
+    setIsFavorite(checkFavoriteRecipes('favoriteRecipes', id));
   }, [id]);
 
   const favoriteThisRecipe = () => {
@@ -73,14 +72,24 @@ export default function DrinkInProgress() {
   };
 
   const handleChange = ({ name, checked }) => {
-    const mealList = inProgressRecipes.cocktails[id];
-    const index = mealList.indexOf(name);
-    if (!checked && index >= 0) {
-      mealList.splice(index, 1);
-    } else if (checked && mealList) {
-      mealList.push(name);
+    if (!inProgressRecipes.cocktails[id]) {
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        cocktails: { [id]: [name] },
+      });
+      return;
     }
-    setInProgressRecipes({ ...inProgressRecipes });
+    const originalRecipes = JSON.parse(JSON.stringify(inProgressRecipes));
+    const cocktailList = originalRecipes.cocktails[id];
+    const index = cocktailList?.indexOf(name);
+    if (!checked) {
+      cocktailList.splice(index, 1);
+      if (cocktailList.length === 0) delete originalRecipes.cocktails[id];
+      setInProgressRecipes({});
+    } else if (checked) {
+      cocktailList.push(name);
+    }
+    setInProgressRecipes({ ...originalRecipes });
   };
 
   if (!data) {
@@ -139,8 +148,8 @@ export default function DrinkInProgress() {
                   id={ value }
                   name={ value }
                   checked={
-                    inProgressRecipes.cocktails[id]
-                      .some((recipe) => recipe === value)
+                    inProgressRecipes?.cocktails[id]
+                      ?.some((recipe) => recipe === value)
                   }
                   onChange={ ({ target }) => handleChange(target) }
                 />
@@ -161,7 +170,7 @@ export default function DrinkInProgress() {
           dataTestId="finish-recipe-btn"
           buttonName="Finish Recipe"
           isDisabled={
-            reduceIngredients(data).length !== inProgressRecipes.cocktails[id].length
+            reduceIngredients(data).length !== inProgressRecipes.cocktails[id]?.length
           }
           handleClick={ redirect }
         />

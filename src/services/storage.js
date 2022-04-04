@@ -14,6 +14,14 @@ const filterItemsById = (key, id) => {
   localStorage.setItem(key, JSON.stringify(newValue));
 };
 
+const checkFavoriteRecipes = (key, id) => {
+  const favoriteRecipes = JSON.parse(localStorage.getItem(key));
+  if (favoriteRecipes) {
+    return favoriteRecipes.some((recipe) => recipe.id === id);
+  }
+  localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+};
+
 const loadStorage = (key) => JSON.parse(localStorage.getItem(key));
 
 const newStorage = (key, value) => localStorage.setItem(key, JSON.stringify(value));
@@ -23,4 +31,5 @@ export {
   filterItemsById,
   loadStorage,
   newStorage,
+  checkFavoriteRecipes,
 };
