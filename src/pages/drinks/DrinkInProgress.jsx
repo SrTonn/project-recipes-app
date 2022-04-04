@@ -9,25 +9,37 @@ import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import styles from '../../styles/pageDetails.module.css';
 import getRecipes from '../../services/fetchRecipes';
 import reduceIngredients from '../../helpers/reduceIngredients';
-import { updateStorage, filterItemsById } from '../../services/storage';
+import {
+  updateStorage,
+  filterItemsById,
+  loadStorage,
+  newStorage,
+  createIdInProgressRecipe,
+  checkRecipeInProgress,
+} from '../../services/storage';
 
 export default function DrinkInProgress() {
   const { params: { id } } = useRouteMatch();
   const { push } = useHistory();
   const [data, setData] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [progressRecipes, setProgressRecipes] = useState([]);
 
   useEffect(() => {
     (async () => {
       const { drinks } = await getRecipes(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
       setData(drinks[0]);
     })();
-    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (favoriteRecipes) {
-      setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === id));
-    } else {
+    (() => {
+      const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      if (favoriteRecipes) {
+        setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === id));
+        return;
+      }
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
-    }
+    })();
+
+    setProgressRecipes(checkRecipeInProgress('inProgressRecipes', 'cocktails', id));
   }, [id]);
 
   const favoriteThisRecipe = () => {
@@ -63,6 +75,20 @@ export default function DrinkInProgress() {
   const copyToClipboard = () => {
     copy(window.location.href.replace('/in-progress', ''));
     toast.success('Link copied!');
+  };
+
+  const handleChange = ({ name, checked }) => {
+    createIdInProgressRecipe('cocktails', id);
+    const inProgressRecipes = loadStorage('inProgressRecipes');
+    const cocktailList = inProgressRecipes.cocktails[id];
+    const index = cocktailList?.indexOf(name);
+    if (!checked && index >= 0) {
+      cocktailList.splice(index, 1);
+    } else if (checked && cocktailList) {
+      cocktailList.push(name);
+    }
+    newStorage('inProgressRecipes', inProgressRecipes);
+    setProgressRecipes(cocktailList);
   };
 
   if (!data) {
@@ -116,7 +142,13 @@ export default function DrinkInProgress() {
                 htmlFor={ value }
                 key={ value }
               >
-                <input type="checkbox" id={ value } />
+                <input
+                  type="checkbox"
+                  id={ value }
+                  name={ value }
+                  checked={ progressRecipes.some((recipe) => recipe === value) }
+                  onChange={ ({ target }) => handleChange(target) }
+                />
                 <li>{value}</li>
               </label>
             ))}

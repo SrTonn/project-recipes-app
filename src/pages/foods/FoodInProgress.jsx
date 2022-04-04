@@ -9,13 +9,21 @@ import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import styles from '../../styles/pageDetails.module.css';
 import getRecipes from '../../services/fetchRecipes';
 import reduceIngredients from '../../helpers/reduceIngredients';
-import { updateStorage, filterItemsById } from '../../services/storage';
+import {
+  checkRecipeInProgress,
+  createIdInProgressRecipe,
+  filterItemsById,
+  loadStorage,
+  newStorage,
+  updateStorage,
+} from '../../services/storage';
 
 export default function FoodInProgress() {
   const { params: { id } } = useRouteMatch();
   const { push } = useHistory();
   const [data, setData] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [progressRecipes, setProgressRecipes] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -28,6 +36,7 @@ export default function FoodInProgress() {
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     }
+    setProgressRecipes(checkRecipeInProgress('inProgressRecipes', 'meals', id));
   }, [id]);
 
   const favoriteThisRecipe = () => {
@@ -63,6 +72,20 @@ export default function FoodInProgress() {
   const copyToClipboard = () => {
     copy(window.location.href.replace('/in-progress', ''));
     toast.success('Link copied!');
+  };
+
+  const handleChange = ({ name, checked }) => {
+    createIdInProgressRecipe('meals', id);
+    const inProgressRecipes = loadStorage('inProgressRecipes');
+    const mealList = inProgressRecipes.meals[id];
+    const index = mealList.indexOf(name);
+    if (!checked && index >= 0) {
+      mealList.splice(index, 1);
+    } else if (checked && mealList) {
+      mealList.push(name);
+    }
+    newStorage('inProgressRecipes', inProgressRecipes);
+    setProgressRecipes(mealList);
   };
 
   if (!data) {
@@ -116,11 +139,14 @@ export default function FoodInProgress() {
                 htmlFor={ value }
                 key={ value }
               >
-                <input type="checkbox" id={ value } />
-                <li>
-                  {value}
-                </li>
-
+                <input
+                  type="checkbox"
+                  id={ value }
+                  name={ value }
+                  checked={ progressRecipes.some((recipe) => recipe === value) }
+                  onChange={ ({ target }) => handleChange(target) }
+                />
+                <li>{value}</li>
               </label>
             ))}
           </ul>

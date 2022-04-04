@@ -18,4 +18,30 @@ const loadStorage = (key) => JSON.parse(localStorage.getItem(key));
 
 const newStorage = (key, value) => localStorage.setItem(key, JSON.stringify(value));
 
-export { updateStorage, filterItemsById, loadStorage, newStorage };
+const checkRecipeInProgress = (key, type, id) => {
+  const inProgressRecipes = loadStorage(key);
+  if (!inProgressRecipes) {
+    newStorage(key, {
+      cocktails: {},
+      meals: {},
+    });
+  }
+  return inProgressRecipes[type][id] || [];
+};
+
+const createIdInProgressRecipe = (type, id) => {
+  const inProgressRecipes = loadStorage('inProgressRecipes');
+  if (!inProgressRecipes[type][id]) {
+    inProgressRecipes[type] = { [id]: [] };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+  }
+};
+
+export {
+  updateStorage,
+  filterItemsById,
+  loadStorage,
+  newStorage,
+  createIdInProgressRecipe,
+  checkRecipeInProgress,
+};
