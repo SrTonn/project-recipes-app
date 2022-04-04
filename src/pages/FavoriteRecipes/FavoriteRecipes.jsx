@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import copy from 'clipboard-copy';
@@ -10,6 +10,7 @@ import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
 export default function FavoriteRecipes() {
+  const [recipeType, setRecipeType] = useState('all');
   const favoriteRecipes = [
     {
       id: '52771',
@@ -51,6 +52,10 @@ export default function FavoriteRecipes() {
     toast.success('Link copied!');
   };
 
+  const handleClick = ({ name }) => {
+    setRecipeType(name);
+  };
+
   return (
     <main>
       <div><Toaster /></div>
@@ -60,23 +65,25 @@ export default function FavoriteRecipes() {
           name="all"
           buttonName="All"
           dataTestId="filter-by-all-btn"
-          // handleClick={ handleClick }
+          handleClick={ handleClick }
         />
         <Button
           name="food"
           buttonName="Foods"
           dataTestId="filter-by-food-btn"
-          // handleClick={ handleClick }
+          handleClick={ handleClick }
         />
         <Button
           name="drink"
           buttonName="Drinks"
           dataTestId="filter-by-drink-btn"
-          // handleClick={ handleClick }
+          handleClick={ handleClick }
         />
       </section>
       <section>
-        { favoriteRecipes.map((item, index) => (
+        { favoriteRecipes.filter((recipe) => (
+          recipeType !== 'all' ? recipe.type === recipeType : true
+        )).map((item, index) => (
           <div key={ item.id } className={ styles.CardContainer }>
             <Link to={ `/${item.type}s/${item.id}` }>
               <img
@@ -116,7 +123,6 @@ export default function FavoriteRecipes() {
               <Button
                 dataTestId={ `${index}-horizontal-favorite-btn` }
                 src="blackHeartIcon"
-                // handleClick={ copyToClipboard }
               >
                 <img
                   id={ `${item.type}s/${item.id}` }
