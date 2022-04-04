@@ -7,7 +7,7 @@ import Header from '../../components/Header/Header';
 import styles from './styles.module.css';
 import shareIcon from '../../images/shareIcon.svg';
 // import favoritedIcon from '../../images/whiteHeartIcon.svg';
-import favoriteIcon from '../../images/blackHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
 export default function FavoriteRecipes() {
   const favoriteRecipes = [
@@ -115,13 +115,12 @@ export default function FavoriteRecipes() {
               </Button>
               <Button
                 dataTestId={ `${index}-horizontal-favorite-btn` }
-                src="favoriteIcon"
-                className={ styles.SharedButton }
+                src="blackHeartIcon"
                 // handleClick={ copyToClipboard }
               >
                 <img
                   id={ `${item.type}s/${item.id}` }
-                  src={ favoriteIcon }
+                  src={ blackHeartIcon }
                   alt="Ícone de desfavoritar"
                 />
               </Button>
