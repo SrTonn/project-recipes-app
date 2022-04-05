@@ -64,19 +64,19 @@ export default function FoodInProgress() {
   };
 
   const saveInLocalStorageAndRedirect = () => {
-    const doneDate = new Date();
+    const doneDate = new Date().toLocaleDateString('pt-BR');
     setDoneRecipes([
       ...doneRecipes,
       {
         id,
         doneDate,
         name: data.strMeal,
-        type: 'meal',
+        type: 'food',
         nationality: data.strArea,
         category: data.strCategory,
         alcoholicOrNot: '',
         image: data.strMealThumb,
-        tags: data.strTags,
+        tags: data.strTags?.split(',') || [],
       },
     ]);
     push('/done-recipes');

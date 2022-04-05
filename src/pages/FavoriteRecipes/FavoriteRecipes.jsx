@@ -6,49 +6,15 @@ import Button from '../../components/Button/Button';
 import Header from '../../components/Header/Header';
 import styles from './styles.module.css';
 import shareIcon from '../../images/shareIcon.svg';
-// import favoritedIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 export default function FavoriteRecipes() {
   const [recipeType, setRecipeType] = useState('all');
-  const favoriteRecipes = [
-    {
-      id: '52771',
-      type: 'food',
-      nationality: 'Italian',
-      category: 'Vegetarian',
-      alcoholicOrNot: '',
-      name: 'Spicy Arrabiata Penne',
-      image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-      doneDate: '23/06/2020',
-      tags: ['Pasta', 'Curry'],
-    },
-    {
-      id: '178319',
-      type: 'drink',
-      nationality: '',
-      category: 'Cocktail',
-      alcoholicOrNot: 'Alcoholic',
-      name: 'Aquamarine',
-      image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-      doneDate: '23/06/2020',
-      tags: [],
-    },
-    {
-      id: '1111',
-      type: 'aaaa',
-      nationality: '',
-      category: 'Cocktail',
-      alcoholicOrNot: 'NO Alcoholiccccccc',
-      name: 'Aquamarine',
-      image: 'https://conteudo.imguol.com.br/c/entretenimento/e7/2017/03/24/teletubbies-1490373962319_v2_1x1.jpg',
-      doneDate: '06/23/2077',
-      tags: ['Tinky Winky', 'Laa-Laa', 'Poo', 'Dipsy'],
-    },
-  ];
+  const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
 
   const copyToClipboard = ({ id }) => {
-    copy(`http://localhost:3000/${id}`);
+    copy(window.location.href.replace('favorite-recipes', id));
     toast.success('Link copied!');
   };
 
@@ -56,9 +22,14 @@ export default function FavoriteRecipes() {
     setRecipeType(name);
   };
 
+  const removeFavorite = ({ id }) => {
+    const favoriteFiltered = favoriteRecipes.filter((favorite) => favorite.id !== id);
+    setFavoriteRecipes(favoriteFiltered);
+  };
+
   return (
     <main>
-      <div><Toaster /></div>
+      <Toaster />
       <Header />
       <section className={ styles.FavoriteRecipes }>
         <Button
@@ -123,9 +94,10 @@ export default function FavoriteRecipes() {
               <Button
                 dataTestId={ `${index}-horizontal-favorite-btn` }
                 src="blackHeartIcon"
+                handleClick={ removeFavorite }
               >
                 <img
-                  id={ `${item.type}s/${item.id}` }
+                  id={ item.id }
                   src={ blackHeartIcon }
                   alt="Ícone de desfavoritar"
                 />
