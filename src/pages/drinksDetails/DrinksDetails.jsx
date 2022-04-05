@@ -97,7 +97,7 @@ export default function FoodDetails() {
 
   return (
     <>
-      <div><Toaster /></div>
+      <Toaster />
       <img
         className={ styles.ImgHeader }
         src={ data.strDrinkThumb }

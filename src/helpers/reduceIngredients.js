@@ -10,8 +10,7 @@ const reduceIngredients = (data) => Object.entries(data)
 
     if (arr.length - 1 === index) {
       return acc[0]
-        .map((item, mapIndex) => `${item} - ${acc[1][mapIndex]}`.trim())
-        .filter((value) => !value.includes('undefined'));
+        .map((item, mapIndex) => `${item} - ${acc[1][mapIndex] || 'to taste'}`.trim());
     }
 
     return acc;

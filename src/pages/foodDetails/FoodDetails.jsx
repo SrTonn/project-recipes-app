@@ -40,7 +40,7 @@ export default function FoodDetails() {
     const inProgressRecipes = loadStorage('inProgressRecipes');
     if (inProgressRecipes) {
       const isRecipeInProgress = Object.keys(inProgressRecipes.meals)
-        .some((cocktailId) => cocktailId === id);
+        .some((mealId) => mealId === id);
       setIsStartedRecipe(isRecipeInProgress);
     } else {
       newStorage('inProgressRecipes', {
@@ -48,7 +48,6 @@ export default function FoodDetails() {
         meals: {},
       });
     }
-    console.log('loadStorage()=>', loadStorage('doneRecipes'));
     setIsDone(loadStorage('doneRecipes')?.some((obj) => obj.id === id));
   }, [id]);
 
@@ -93,7 +92,7 @@ export default function FoodDetails() {
 
   return (
     <>
-      <div><Toaster /></div>
+      <Toaster />
       <img
         className={ styles.ImgHeader }
         src={ data.strMealThumb }

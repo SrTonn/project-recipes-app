@@ -65,7 +65,6 @@ export default function DrinkInProgress() {
 
   const saveInLocalStorageAndRedirect = () => {
     const doneDate = new Date();
-    console.log(data);
     setDoneRecipes([
       ...doneRecipes,
       {

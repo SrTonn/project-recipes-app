@@ -19,7 +19,7 @@ const checkFavoriteRecipes = (key, id) => {
   if (favoriteRecipes) {
     return favoriteRecipes.some((recipe) => recipe.id === id);
   }
-  localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+  localStorage.setItem(key, JSON.stringify([]));
 };
 
 const loadStorage = (key) => JSON.parse(localStorage.getItem(key));
