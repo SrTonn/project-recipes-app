@@ -27,6 +27,7 @@ export default function FoodInProgress() {
       meals: { [id]: [] },
     },
   );
+  const [doneRecipes, setDoneRecipes] = useLocalStorage('doneRecipes', []);
 
   useEffect(() => {
     (async () => {
@@ -62,7 +63,22 @@ export default function FoodInProgress() {
     favoriteThisRecipe();
   };
 
-  const redirect = () => {
+  const saveInLocalStorageAndRedirect = () => {
+    const doneDate = new Date();
+    setDoneRecipes([
+      ...doneRecipes,
+      {
+        id,
+        doneDate,
+        name: data.strMeal,
+        type: 'meal',
+        nationality: data.strArea,
+        category: data.strCategory,
+        alcoholicOrNot: '',
+        image: data.strMealThumb,
+        tags: data.strTags,
+      },
+    ]);
     push('/done-recipes');
   };
 
@@ -72,24 +88,24 @@ export default function FoodInProgress() {
   };
 
   const handleChange = ({ name, checked }) => {
-    if (!inProgressRecipes.meals[id]) {
-      setInProgressRecipes({
-        ...inProgressRecipes,
-        meals: { [id]: [name] },
-      });
-      return;
-    }
     const originalRecipes = JSON.parse(JSON.stringify(inProgressRecipes));
     const mealList = originalRecipes.meals[id];
     const index = mealList?.indexOf(name);
+
     if (!checked) {
       mealList.splice(index, 1);
       if (mealList.length === 0) delete originalRecipes.meals[id];
-      setInProgressRecipes({});
-    } else if (checked) {
-      mealList.push(name);
+      setInProgressRecipes({ ...originalRecipes });
+      return;
     }
-    setInProgressRecipes({ ...originalRecipes });
+
+    setInProgressRecipes({
+      ...inProgressRecipes,
+      meals: {
+        ...inProgressRecipes.meals,
+        [id]: mealList ? [...mealList, name] : [name],
+      },
+    });
   };
 
   if (!data) {
@@ -172,7 +188,7 @@ export default function FoodInProgress() {
           isDisabled={
             reduceIngredients(data).length !== inProgressRecipes.meals[id]?.length
           }
-          handleClick={ redirect }
+          handleClick={ saveInLocalStorageAndRedirect }
         />
       </main>
     </>

@@ -27,6 +27,7 @@ export default function DrinkInProgress() {
       meals: {},
     },
   );
+  const [doneRecipes, setDoneRecipes] = useLocalStorage('doneRecipes', []);
 
   useEffect(() => {
     (async () => {
@@ -62,7 +63,23 @@ export default function DrinkInProgress() {
     favoriteThisRecipe();
   };
 
-  const redirect = () => {
+  const saveInLocalStorageAndRedirect = () => {
+    const doneDate = new Date();
+    console.log(data);
+    setDoneRecipes([
+      ...doneRecipes,
+      {
+        id,
+        doneDate,
+        name: data.strDrink,
+        type: 'meal',
+        nationality: data.strArea,
+        category: data.strCategory,
+        alcoholicOrNot: data.strAlcoholic,
+        image: data.strDrinkThumb,
+        tags: data.strTags,
+      },
+    ]);
     push('/done-recipes');
   };
 
@@ -72,24 +89,24 @@ export default function DrinkInProgress() {
   };
 
   const handleChange = ({ name, checked }) => {
-    if (!inProgressRecipes.cocktails[id]) {
-      setInProgressRecipes({
-        ...inProgressRecipes,
-        cocktails: { [id]: [name] },
-      });
-      return;
-    }
     const originalRecipes = JSON.parse(JSON.stringify(inProgressRecipes));
     const cocktailList = originalRecipes.cocktails[id];
     const index = cocktailList?.indexOf(name);
+
     if (!checked) {
       cocktailList.splice(index, 1);
       if (cocktailList.length === 0) delete originalRecipes.cocktails[id];
-      setInProgressRecipes({});
-    } else if (checked) {
-      cocktailList.push(name);
+      setInProgressRecipes({ ...originalRecipes });
+      return;
     }
-    setInProgressRecipes({ ...originalRecipes });
+
+    setInProgressRecipes({
+      ...inProgressRecipes,
+      cocktails: {
+        ...inProgressRecipes.cocktails,
+        [id]: cocktailList ? [...cocktailList, name] : [name],
+      },
+    });
   };
 
   if (!data) {
@@ -172,7 +189,7 @@ export default function DrinkInProgress() {
           isDisabled={
             reduceIngredients(data).length !== inProgressRecipes.cocktails[id]?.length
           }
-          handleClick={ redirect }
+          handleClick={ saveInLocalStorageAndRedirect }
         />
       </main>
     </>
