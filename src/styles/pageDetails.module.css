@@ -9,8 +9,11 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
 
 .Main {
   gap: 2px;
-  margin-bottom: 80px;
   padding: 8px;
+}
+
+.MainMarginBottom {
+  margin-bottom: 80px;
 }
 
 .NameAndIconsContainer {
@@ -99,6 +102,11 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
   position: fixed;
   transform: translateX(-50%);
   width: 339px;
+}
+
+.StartButton:disabled {
+  background-color: rgb(124, 124, 124);
+
 }
 
 /* Card Recommended */

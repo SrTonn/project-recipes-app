@@ -14,6 +14,7 @@ import { updateStorage,
   filterItemsById,
   loadStorage,
   newStorage,
+  checkFavoriteRecipes,
 } from '../../services/storage';
 
 export default function FoodDetails() {
@@ -23,6 +24,7 @@ export default function FoodDetails() {
   const [recommendations, setRecommendations] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isStartedRecipe, setIsStartedRecipe] = useState(false);
+  const [isDone, setIsDone] = useState(false);
   const MAX_RECOMMENDATION = 6;
 
   useEffect(() => {
@@ -34,12 +36,7 @@ export default function FoodDetails() {
       const { drinks } = await getRecipes('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
       setRecommendations(drinks);
     })();
-    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (favoriteRecipes) {
-      setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === id));
-    } else {
-      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
-    }
+    setIsFavorite(checkFavoriteRecipes('favoriteRecipes', id));
     const inProgressRecipes = loadStorage('inProgressRecipes');
     if (inProgressRecipes) {
       const isRecipeInProgress = Object.keys(inProgressRecipes.meals)
@@ -51,6 +48,8 @@ export default function FoodDetails() {
         meals: {},
       });
     }
+    console.log('loadStorage()=>', loadStorage('doneRecipes'));
+    setIsDone(loadStorage('doneRecipes')?.some((obj) => obj.id === id));
   }, [id]);
 
   const favoriteThisRecipe = () => {
@@ -101,7 +100,11 @@ export default function FoodDetails() {
         alt={ data.strMeal }
         data-testid="recipe-photo"
       />
-      <main className={ styles.Main }>
+      <main
+        className={
+          `${styles.Main} ${!isDone ? styles.MainMarginBottom : null}`
+        }
+      >
         <div className={ styles.NameAndIconsContainer }>
           <h2 data-testid="recipe-title" className={ styles.Title }>{data.strMeal}</h2>
           <div className={ styles.ShareAndFavoriteContainer }>
@@ -184,12 +187,14 @@ export default function FoodDetails() {
               />
             ))}
         </div>
-        <Button
-          className={ styles.StartButton }
-          dataTestId="start-recipe-btn"
-          buttonName={ isStartedRecipe ? 'Continue Recipe' : 'Start Recipe' }
-          handleClick={ redirect }
-        />
+        {!isDone && (
+          <Button
+            className={ styles.StartButton }
+            dataTestId="start-recipe-btn"
+            buttonName={ isStartedRecipe ? 'Continue Recipe' : 'Start Recipe' }
+            handleClick={ redirect }
+          />
+        )}
       </main>
     </>
   );
