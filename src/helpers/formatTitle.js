@@ -3,7 +3,8 @@ const formatTitle = (input) => {
     input = input.replace(/(?<!^)\/\w+/, '');
   }
   return input
-    .replace(/((\/|-)\w)/g, (_, firstLetter) => ` ${firstLetter[1].toUpperCase()}`)
+    .replace(/((\/|-)\w?)/g,
+      (_, firstLetter) => ` ${firstLetter[1]?.toUpperCase() || ''}`)
     .trim();
 };
 

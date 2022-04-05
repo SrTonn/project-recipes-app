@@ -8,33 +8,48 @@ import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import styles from '../../styles/pageDetails.module.css';
 import getRecipes from '../../services/fetchRecipes';
+import Card from '../../components/Card/Card';
 import reduceIngredients from '../../helpers/reduceIngredients';
-import {
-  checkFavoriteRecipes,
+import { updateStorage,
   filterItemsById,
-  updateStorage,
+  loadStorage,
+  newStorage,
+  checkFavoriteRecipes,
 } from '../../services/storage';
-import useLocalStorage from '../../hooks/useLocalStorage';
 
-export default function FoodInProgress() {
-  const { params: { id } } = useRouteMatch();
+export default function FoodDetails() {
+  const { params: { id }, url } = useRouteMatch();
   const { push } = useHistory();
   const [data, setData] = useState(null);
+  const [recommendations, setRecommendations] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [inProgressRecipes, setInProgressRecipes] = useLocalStorage(
-    'inProgressRecipes', {
-      cocktails: {},
-      meals: { [id]: [] },
-    },
-  );
-  const [doneRecipes, setDoneRecipes] = useLocalStorage('doneRecipes', []);
+  const [isStartedRecipe, setIsStartedRecipe] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+  const MAX_RECOMMENDATION = 6;
 
   useEffect(() => {
     (async () => {
       const { meals } = await getRecipes(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       setData(meals[0]);
     })();
+    (async () => {
+      const { drinks } = await getRecipes('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      setRecommendations(drinks);
+    })();
     setIsFavorite(checkFavoriteRecipes('favoriteRecipes', id));
+    const inProgressRecipes = loadStorage('inProgressRecipes');
+    if (inProgressRecipes) {
+      const isRecipeInProgress = Object.keys(inProgressRecipes.meals)
+        .some((cocktailId) => cocktailId === id);
+      setIsStartedRecipe(isRecipeInProgress);
+    } else {
+      newStorage('inProgressRecipes', {
+        cocktails: {},
+        meals: {},
+      });
+    }
+    console.log('loadStorage()=>', loadStorage('doneRecipes'));
+    setIsDone(loadStorage('doneRecipes')?.some((obj) => obj.id === id));
   }, [id]);
 
   const favoriteThisRecipe = () => {
@@ -63,49 +78,13 @@ export default function FoodInProgress() {
     favoriteThisRecipe();
   };
 
-  const saveInLocalStorageAndRedirect = () => {
-    const doneDate = new Date();
-    setDoneRecipes([
-      ...doneRecipes,
-      {
-        id,
-        doneDate,
-        name: data.strMeal,
-        type: 'meal',
-        nationality: data.strArea,
-        category: data.strCategory,
-        alcoholicOrNot: '',
-        image: data.strMealThumb,
-        tags: data.strTags,
-      },
-    ]);
-    push('/done-recipes');
+  const redirect = () => {
+    push(`${url}/in-progress`);
   };
 
   const copyToClipboard = () => {
-    copy(window.location.href.replace('/in-progress', ''));
+    copy(`http://localhost:3000/foods/${data.idMeal}`);
     toast.success('Link copied!');
-  };
-
-  const handleChange = ({ name, checked }) => {
-    const originalRecipes = JSON.parse(JSON.stringify(inProgressRecipes));
-    const mealList = originalRecipes.meals[id];
-    const index = mealList?.indexOf(name);
-
-    if (!checked) {
-      mealList.splice(index, 1);
-      if (mealList.length === 0) delete originalRecipes.meals[id];
-      setInProgressRecipes({ ...originalRecipes });
-      return;
-    }
-
-    setInProgressRecipes({
-      ...inProgressRecipes,
-      meals: {
-        ...inProgressRecipes.meals,
-        [id]: mealList ? [...mealList, name] : [name],
-      },
-    });
   };
 
   if (!data) {
@@ -114,14 +93,18 @@ export default function FoodInProgress() {
 
   return (
     <>
-      <Toaster />
+      <div><Toaster /></div>
       <img
         className={ styles.ImgHeader }
         src={ data.strMealThumb }
         alt={ data.strMeal }
         data-testid="recipe-photo"
       />
-      <main className={ styles.Main }>
+      <main
+        className={
+          `${styles.Main} ${!isDone ? styles.MainMarginBottom : null}`
+        }
+      >
         <div className={ styles.NameAndIconsContainer }>
           <h2 data-testid="recipe-title" className={ styles.Title }>{data.strMeal}</h2>
           <div className={ styles.ShareAndFavoriteContainer }>
@@ -154,24 +137,12 @@ export default function FoodInProgress() {
         <div className={ styles.IngredientsContainer }>
           <ul>
             {reduceIngredients(data).map((value, index) => (
-              <label
-                data-testid={ `${index}-ingredient-step` }
-                htmlFor={ value }
+              <li
                 key={ value }
+                data-testid={ `${index}-ingredient-name-and-measure` }
               >
-                <input
-                  type="checkbox"
-                  id={ value }
-                  name={ value }
-                  checked={
-                    inProgressRecipes?.meals[id]
-                      ?.some((recipe) => recipe === value)
-                  }
-                  onChange={ ({ target }) => handleChange(target) }
-                />
-                <li>{value}</li>
-              </label>
-            ))}
+                {value}
+              </li>))}
           </ul>
         </div>
         <h3>Instructions</h3>
@@ -181,15 +152,49 @@ export default function FoodInProgress() {
         >
           {data.strInstructions}
         </p>
-        <Button
-          className={ styles.StartButton }
-          dataTestId="finish-recipe-btn"
-          buttonName="Finish Recipe"
-          isDisabled={
-            reduceIngredients(data).length !== inProgressRecipes.meals[id]?.length
-          }
-          handleClick={ saveInLocalStorageAndRedirect }
+        <h3>Video</h3>
+        <iframe
+          className={ styles.Iframe }
+          src={ data.strYoutube.replace('watch?v=', 'embed/') }
+          data-testid="video"
+          title="YouTube video player"
+          frameBorder="0"
+          allow="
+          accelerometer;
+          autoplay;
+          clipboard-write;
+          encrypted-media;
+          gyroscope;
+          picture-in-picture
+        "
+          allowFullScreen
         />
+        <h3>Recommended</h3>
+        <div className={ styles.CardsContainer }>
+          {recommendations?.slice(0, MAX_RECOMMENDATION)
+            .map(({ strDrinkThumb, strAlcoholic, idDrink, strDrink }, index) => (
+              <Card
+                key={ idDrink }
+                className={ styles.Card }
+                index={ index }
+                src={ strDrinkThumb }
+                strType={ strAlcoholic }
+                name={ strDrink }
+                dataTestId={ {
+                  container: '-recomendation-card',
+                  paragraph: '-recomendation-title',
+                } }
+              />
+            ))}
+        </div>
+        {!isDone && (
+          <Button
+            className={ styles.StartButton }
+            dataTestId="start-recipe-btn"
+            buttonName={ isStartedRecipe ? 'Continue Recipe' : 'Start Recipe' }
+            handleClick={ redirect }
+          />
+        )}
       </main>
     </>
   );
