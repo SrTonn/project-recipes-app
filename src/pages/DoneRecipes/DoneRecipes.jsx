@@ -44,41 +44,43 @@ export default function DoneRecipes() {
           handleClick={ handleClick }
         />
       </section>
-      {doneRecipes.filter((recipe) => (
+      {doneRecipes && doneRecipes.filter((recipe) => (
         recipeType !== 'all' ? recipe.type === recipeType : true
       )).map((item, index) => (
         <div key={ item.id } className={ styles.CardContainer }>
           {console.log(item.type)}
           <Link to={ `/${item.type}s/${item.id}` }>
             <img
-              data-testid={ `${index}-horizontal-image` }
+              data-testid={ `${index}horizontal-image` }
               alt={ `Imagem da receita ${item.name}` }
               src={ item.image }
               className={ styles.MealImage }
             />
           </Link>
           <div>
-            {item.alcoholicOrNot ? (
-              <h4 data-testid={ `${index}-horizontal-top-text` }>
-                {item.alcoholicOrNot}
-              </h4>
-            )
-              : (
+            <div>
+              {item.alcoholicOrNot ? (
                 <h4 data-testid={ `${index}-horizontal-top-text` }>
-                  {`${item.nationality} - ${item.category}`}
-                </h4>)}
-            <Button
-              dataTestId={ `${index}-horizontal-share-btn` }
-              src="shareIcon"
-              className={ styles.SharedButton }
-              handleClick={ copyToClipboard }
-            >
-              <img
-                id={ `${item.type}s/${item.id}` }
-                src={ shareIcon }
-                alt="Ícone de compartilhar"
-              />
-            </Button>
+                  {item.alcoholicOrNot}
+                </h4>
+              )
+                : (
+                  <h4 data-testid={ `${index}-horizontal-top-text` }>
+                    {`${item.nationality} - ${item.category}`}
+                  </h4>)}
+              <Button
+                dataTestId={ `${index}-horizontal-share-btn` }
+                src="shareIcon"
+                className={ styles.SharedButton }
+                handleClick={ copyToClipboard }
+              >
+                <img
+                  id={ `${item.type}s/${item.id}` }
+                  src={ shareIcon }
+                  alt="Ícone de compartilhar"
+                />
+              </Button>
+            </div>
             <Link to={ `/${item.type}s/${item.id}` }>
               <h3 data-testid={ `${index}-horizontal-name` }>
                 {item.name}
