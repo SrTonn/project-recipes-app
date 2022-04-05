@@ -15,7 +15,7 @@ export default function Login() {
     const validateLogin = () => {
       const MAX_CHARACTER_LENGTH = 6;
       const conditions = [
-        /^\S+@\S+\.\S+$/.test(inputText.email),
+        /^[a-z._-\d]{3,26}@[a-z]{3,16}\.[a-z]{2,3}$/i.test(inputText.email),
         inputText.password.length > MAX_CHARACTER_LENGTH,
       ];
 
@@ -55,7 +55,7 @@ export default function Login() {
         </label>
         <label htmlFor="passwordInput">
           <input
-            type="text"
+            type="password"
             name="password"
             data-testid="password-input"
             onChange={ ({ target }) => handleChange(target) }

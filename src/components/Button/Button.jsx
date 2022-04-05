@@ -34,7 +34,7 @@ Button.defaultProps = {
   src: null,
   children: null,
   buttonName: '',
-  name: null,
+  name: '',
 };
 
 Button.propTypes = {
@@ -43,7 +43,10 @@ Button.propTypes = {
   className: PropTypes.string,
   isDisabled: PropTypes.bool,
   dataTestId: PropTypes.string.isRequired,
-  children: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   buttonName: PropTypes.string,
   type: PropTypes.string,
   src: PropTypes.string,

@@ -14,8 +14,8 @@ import Foods from '../pages/Foods/Foods';
 import Drinks from '../pages/drinks/Drinks';
 import DrinkInProgress from '../pages/drinks/DrinkInProgress';
 import ExploreFoods from '../pages/explore/ExploreFoods';
-import FoodDetails from '../pages/foods/FoodDetails';
-import DrinksDetails from '../pages/drinks/DrinksDetails';
+import FoodDetails from '../pages/foodDetails/FoodDetails';
+import DrinksDetails from '../pages/drinksDetails/DrinksDetails';
 import FoodInProgress from '../pages/foods/FoodInProgress';
 
 export default function Routes() {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, Redirect } from 'react-router-dom';
 import Button from '../Button/Button';
 import profileIcon from '../../images/profileIcon.svg';
@@ -6,11 +6,12 @@ import searchIcon from '../../images/searchIcon.svg';
 import styles from './styles.module.css';
 import formatTitle from '../../helpers/formatTitle';
 import Context from '../../context/Context';
-import BarraDeBusca from '../BarraDeBusca/BarraDeBusca';
+import SearchBar from '../SearchBar/SearchBar';
 
 export default function Header() {
-  const { inputSearch, setInputSearch, recipes } = useContext(Context);
+  const { recipes } = useContext(Context);
   const { push, location: { pathname } } = useHistory();
+  const [isVisible, setIsVisible] = useState(false);
   const title = formatTitle(pathname);
 
   const handleClick = () => {
@@ -18,7 +19,7 @@ export default function Header() {
   };
 
   const toggleInput = () => {
-    setInputSearch((prevState) => ({ ...prevState, isVisible: !prevState.isVisible }));
+    setIsVisible((prevState) => !prevState);
   };
 
   const searchNoRender = [
@@ -66,7 +67,7 @@ export default function Header() {
             <img src={ searchIcon } alt="searchIcon" />
           </Button>)}
       </header>
-      { inputSearch.isVisible && (<BarraDeBusca />)}
+      { isVisible && (<SearchBar />)}
     </>
   );
 }
