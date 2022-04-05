@@ -13,6 +13,7 @@ export default function Foods() {
     <>
       <Header />
       <main className={ styles.Main }>
+        {console.log(recipes)}
         {recipes?.length > 0 && (
           recipes
             .slice(0, MAX_RECIPES)

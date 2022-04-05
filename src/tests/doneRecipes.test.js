@@ -2,6 +2,30 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderPath from './helpers/renderPath';
 
+const doneRecipes = [
+  {
+    id: '52771',
+    type: 'food',
+    nationality: 'Italian',
+    category: 'Vegetarian',
+    alcoholicOrNot: '',
+    name: 'Spicy Arrabiata Penne',
+    image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+    doneDate: '23/06/2020',
+    tags: ['Pasta', 'Curry'],
+  },
+  {
+    id: '178319',
+    type: 'drink',
+    nationality: '',
+    category: 'Cocktail',
+    alcoholicOrNot: 'Alcoholic',
+    name: 'Aquamarine',
+    image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+    doneDate: '23/06/2020',
+    tags: [],
+  },
+];
 // jest.mock('clipboard-copy', () => jest.fn());
 // const copy = require('clipboard-copy');
 
@@ -9,11 +33,15 @@ let IsAlcoholicId;
 // let clipboard;
 
 beforeEach(() => {
+  window.localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
   renderPath('/done-recipes');
   IsAlcoholicId = '1-horizontal-top-text';
   // clipboard = navigator.clipboard.writeText(window.location.href).resolves('http://localhost:3000/done-recipes');
 });
-console.log(clipboardCopy);
+
+afterEach(() => {
+  window.localStorage.clear();
+});
 
 describe('54. Os elementos da tela devem estar de acordo ao protótipo', () => {
   it('Todos os elementos estão na tela', () => {
