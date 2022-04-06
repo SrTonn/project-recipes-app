@@ -1,0 +1,37 @@
+.DoneRecipes {
+  align-items: center;
+  display: flex;
+  height: 58px;
+  justify-content: center;
+  width: 100%;
+}
+
+.DoneRecipes button {
+  background-color: transparent;
+  border: outset;
+  height: 45px;
+  text-align: center;
+  top: 76px;
+  width: 102px;
+}
+
+.CardContainer {
+  align-items: center;
+  border: groove;
+  display: flex;
+  justify-content: center;
+}
+
+.SharedButton {
+  height: 30px;
+  width: 30px;
+}
+
+.MealImage {
+  width: 50%;
+}
+
+.TagsContainer p {
+  display: inline-block;
+  margin: 5px;
+}

@@ -64,19 +64,19 @@ export default function DrinkInProgress() {
   };
 
   const saveInLocalStorageAndRedirect = () => {
-    const doneDate = new Date();
+    const doneDate = new Date().toLocaleDateString('pt-BR');
     setDoneRecipes([
       ...doneRecipes,
       {
         id,
         doneDate,
         name: data.strDrink,
-        type: 'meal',
+        type: 'drink',
         nationality: data.strArea,
         category: data.strCategory,
         alcoholicOrNot: data.strAlcoholic,
         image: data.strDrinkThumb,
-        tags: data.strTags,
+        tags: data.strTags?.split(',') || [],
       },
     ]);
     push('/done-recipes');

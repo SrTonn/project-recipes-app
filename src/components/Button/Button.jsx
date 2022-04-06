@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function Button({
+  name,
   handleClick,
   className,
   isDisabled,
   dataTestId,
   children,
   buttonName,
-  name,
   type,
   src,
 }) {
@@ -38,8 +38,8 @@ Button.defaultProps = {
 };
 
 Button.propTypes = {
-  handleClick: PropTypes.func.isRequired,
   name: PropTypes.string,
+  handleClick: PropTypes.func.isRequired,
   className: PropTypes.string,
   isDisabled: PropTypes.bool,
   dataTestId: PropTypes.string.isRequired,

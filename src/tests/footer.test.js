@@ -24,7 +24,6 @@ describe('Adicione um footer a tela.', () => {
     async () => {
       const exploreImg = screen.getByRole('img', { name: /exploreicon/i });
       exploreImg.click();
-
       const exploreText = screen.getByText(/explore/i);
       expect(exploreText).toBeInTheDocument();
     });
