@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Context from '../../context/Context';
 import Footer from '../../components/Footer/Footer';
@@ -25,18 +26,20 @@ export default function Drinks() {
         {recipes?.length > 0
           && (recipes
             .slice(0, MAX_RECIPES)
-            .map(({ strDrink, strDrinkThumb }, index) => (
-              <Card
-                key={ strDrink }
-                index={ index }
-                src={ strDrinkThumb }
-                name={ strDrink }
-                dataTestId={ {
-                  container: '-recipe-card',
-                  img: '-card-img',
-                  paragraph: '-card-name',
-                } }
-              />
+            .map(({ strDrink, strDrinkThumb, idDrink }, index) => (
+              <Link to={ `/drinks/${idDrink}` } key={ strDrink }>
+                <Card
+                  key={ strDrink }
+                  index={ index }
+                  src={ strDrinkThumb }
+                  name={ strDrink }
+                  dataTestId={ {
+                    container: '-recipe-card',
+                    img: '-card-img',
+                    paragraph: '-card-name',
+                  } }
+                />
+              </Link>
             ))
           )}
       </main>

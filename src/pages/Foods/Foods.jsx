@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Card from '../../components/Card/Card';
 import Categories from '../../components/CategoriesFilter/Categories';
 import Footer from '../../components/Footer/Footer';
@@ -27,18 +28,19 @@ export default function Foods() {
         {recipes?.length > 0 && (
           recipes
             .slice(0, MAX_RECIPES)
-            .map(({ strMeal, strMealThumb }, index) => (
-              <Card
-                key={ strMeal }
-                index={ index }
-                src={ strMealThumb }
-                name={ strMeal }
-                dataTestId={ {
-                  container: '-recipe-card',
-                  img: '-card-img',
-                  paragraph: '-card-name',
-                } }
-              />
+            .map(({ strMeal, strMealThumb, idMeal }, index) => (
+              <Link to={ `/foods/${idMeal}` } key={ strMeal }>
+                <Card
+                  index={ index }
+                  src={ strMealThumb }
+                  name={ strMeal }
+                  dataTestId={ {
+                    container: '-recipe-card',
+                    img: '-card-img',
+                    paragraph: '-card-name',
+                  } }
+                />
+              </Link>
             ))
         )}
 
