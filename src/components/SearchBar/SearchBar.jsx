@@ -41,6 +41,7 @@ export default function SearchBar() {
       ...prevState,
       endpoint: baseEndPoint + inputValue,
       canUpdate: true,
+      canRedirect: true,
       pathname,
     }));
   };

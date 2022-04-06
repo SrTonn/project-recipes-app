@@ -9,7 +9,7 @@ import Context from '../../context/Context';
 import SearchBar from '../SearchBar/SearchBar';
 
 export default function Header() {
-  const { recipes } = useContext(Context);
+  const { recipes, recipesInfo: { canRedirect } } = useContext(Context);
   const { push, location: { pathname } } = useHistory();
   const [isVisible, setIsVisible] = useState(false);
   const title = formatTitle(pathname);
@@ -39,11 +39,11 @@ export default function Header() {
     }
   }, [recipes]);
 
-  if (recipes?.length === 1 && pathname.includes('foods')) {
+  if (recipes?.length === 1 && pathname.includes('foods') && canRedirect) {
     return <Redirect to={ `/foods/${recipes[0].idMeal}` } />;
   }
 
-  if (recipes?.length === 1 && pathname.includes('drinks')) {
+  if (recipes?.length === 1 && pathname.includes('drinks') && canRedirect) {
     return <Redirect to={ `/drinks/${recipes[0].idDrink}` } />;
   }
 

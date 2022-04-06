@@ -11,6 +11,7 @@ export default function Provider({ children }) {
   const [recipesInfo, setRecipesInfo] = useState({
     endpoint: null,
     canUpdate: false,
+    canRedirect: true,
     pathname: null,
   });
 
@@ -18,11 +19,7 @@ export default function Provider({ children }) {
     (async () => {
       if (recipesInfo.canUpdate) {
         const recipesTreated = await getRecipes(recipesInfo.endpoint);
-        if (recipesInfo.pathname === '/foods') {
-          setRecipes(recipesTreated.meals);
-        } else if (recipesInfo.pathname === '/drinks') {
-          setRecipes(recipesTreated.drinks);
-        }
+        setRecipes(recipesTreated.drinks || recipesTreated.meals);
       }
     })();
   }, [recipesInfo]);
@@ -33,6 +30,7 @@ export default function Provider({ children }) {
     recipes,
     setRecipes,
     setRecipesInfo,
+    recipesInfo,
   };
 
   return (
