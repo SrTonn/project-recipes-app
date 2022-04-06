@@ -51,7 +51,7 @@ export default function DoneRecipes() {
           {console.log(item.type)}
           <Link to={ `/${item.type}s/${item.id}` }>
             <img
-              data-testid={ `${index}horizontal-image` }
+              data-testid={ `${index}-horizontal-image` }
               alt={ `Imagem da receita ${item.name}` }
               src={ item.image }
               className={ styles.MealImage }
