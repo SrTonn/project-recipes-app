@@ -7,7 +7,7 @@ import ExploreDrinksIngredients from '../pages/explore/ExploreDrinksIngredients'
 import ExploreNationalities from '../pages/explore/ExploreNationalities';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import NotFound from '../pages/NotFound';
-import Profile from '../pages/Profile';
+import Profile from '../pages/profile/Profile';
 import ExploreFoodsIngredients from '../pages/explore/ExploreFoodsIngredients';
 import ExploreDrinks from '../pages/explore/ExploreDrinks';
 import Foods from '../pages/Foods/Foods';
