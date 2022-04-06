@@ -23,14 +23,20 @@ export default function Categories() {
     })();
   }, []);
 
+  const handleClick = () => {
+    console.log('ativei');
+  };
+
   return (
     <div className={ styles.Categories }>
+      {console.log(categories)}
       {categories.map((category) => (
         <Button
           key={ category }
           buttonName={ category }
           className={ styles.Button }
           dataTestId={ `${category}-category-filter` }
+          handleClick={ handleClick }
         />
       ))}
     </div>
