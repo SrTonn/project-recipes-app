@@ -12,6 +12,7 @@ export default function Card({ className, src, index, strType, dataTestId, name 
         src={ src }
         alt={ `Imagem da receita ${name}` }
         data-testid={ dataTestId.img ? index + dataTestId.img : null }
+        name={ name }
       />
       {strType && <p>{strType}</p>}
       <p data-testid={ dataTestId.paragraph ? index + dataTestId.paragraph : null }>
@@ -24,10 +25,11 @@ export default function Card({ className, src, index, strType, dataTestId, name 
 Card.defaultProps = {
   strType: null,
   className: null,
+  index: null,
 };
 
 Card.propTypes = {
-  index: PropTypes.number.isRequired,
+  index: PropTypes.number,
   src: PropTypes.string.isRequired,
   className: PropTypes.string,
   name: PropTypes.string.isRequired,
