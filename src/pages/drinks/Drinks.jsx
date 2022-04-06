@@ -30,7 +30,12 @@ export default function Drinks() {
                 key={ strDrink }
                 index={ index }
                 src={ strDrinkThumb }
-                strType={ strDrink }
+                name={ strDrink }
+                dataTestId={ {
+                  container: '-recipe-card',
+                  img: '-card-img',
+                  paragraph: '-card-name',
+                } }
               />
             ))
           )}

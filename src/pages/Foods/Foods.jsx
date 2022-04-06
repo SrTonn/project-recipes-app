@@ -32,7 +32,12 @@ export default function Foods() {
                 key={ strMeal }
                 index={ index }
                 src={ strMealThumb }
-                strType={ strMeal }
+                name={ strMeal }
+                dataTestId={ {
+                  container: '-recipe-card',
+                  img: '-card-img',
+                  paragraph: '-card-name',
+                } }
               />
             ))
         )}

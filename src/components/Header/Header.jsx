@@ -1,25 +1,37 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, Redirect } from 'react-router-dom';
 import Button from '../Button/Button';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import styles from './styles.module.css';
+import formatTitle from '../../helpers/formatTitle';
 import Context from '../../context/Context';
-import BarraDeBusca from '../BarraDeBusca/BarraDeBusca';
+import SearchBar from '../SearchBar/SearchBar';
 
 export default function Header() {
+  const { recipes } = useContext(Context);
   const { push, location: { pathname } } = useHistory();
-  const { inputSearch, setInputSearch, recipes } = useContext(Context);
-  const title = pathname
-    .replace(/\/(\w)/g, (_, firstLetter) => ` ${firstLetter.toUpperCase()}`);
+  const [isVisible, setIsVisible] = useState(false);
+  const title = formatTitle(pathname);
 
   const handleClick = () => {
     push('/profile');
   };
 
   const toggleInput = () => {
-    setInputSearch((prevState) => ({ ...prevState, isVisible: !prevState.isVisible }));
+    setIsVisible((prevState) => !prevState);
   };
+
+  const searchNoRender = [
+    '/profile',
+    '/explore',
+    '/explore/foods',
+    '/explore/drinks',
+    '/favorite-recipes',
+    '/explore/foods/ingredients',
+    '/explore/drinks/ingredients',
+    '/done-recipes',
+  ];
 
   useEffect(() => {
     if (!recipes) {
@@ -46,15 +58,16 @@ export default function Header() {
           <img src={ profileIcon } alt="profile-icon" />
         </Button>
         <h2 data-testid="page-title">{title}</h2>
-        <Button
-          dataTestId="search-top-btn"
-          src="searchIcon"
-          handleClick={ toggleInput }
-        >
-          <img src={ searchIcon } alt="searchIcon" />
-        </Button>
+        {!searchNoRender.includes(pathname) && (
+          <Button
+            dataTestId="search-top-btn"
+            src="searchIcon"
+            handleClick={ toggleInput }
+          >
+            <img src={ searchIcon } alt="searchIcon" />
+          </Button>)}
       </header>
-      { inputSearch.isVisible && (<BarraDeBusca />)}
+      { isVisible && (<SearchBar />)}
     </>
   );
 }

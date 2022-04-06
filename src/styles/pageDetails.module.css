@@ -1,0 +1,166 @@
+.ImgHeader {
+  height: 155px;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Ref.:
+https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-ratio/ */
+
+.Main {
+  gap: 2px;
+  padding: 8px;
+}
+
+.MainMarginBottom {
+  margin-bottom: 80px;
+}
+
+.NameAndIconsContainer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Title {
+  line-height: 35.16px;
+  size : 30px;
+}
+
+.ShareAndFavoriteContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.Favorite, .FavoriteActive {
+  height: 26px;
+}
+
+.FavoriteActive {
+  filter: brightness(0.9) invert(0.7) sepia(0.5) hue-rotate(300deg) saturate(9000%);
+}
+
+/* Ref.:
+ https://stackoverflow.com/questions/41157135/is-it-possible-to-change-color-of-a-black-png-image-using-css-only
+*/
+
+.Category {
+  color: darkgray;
+  line-height: 2px;
+  transform: translateY(-50%);
+}
+
+.IngredientsContainer {
+  background-color: rgba(236, 236, 236, 1);
+  border-radius: 4px;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+.IngredientsContainer label {
+  display: block;
+}
+
+.IngredientsContainer label input:first-child {
+  margin-right: 5px;
+}
+
+.IngredientsContainer li {
+  list-style-type: none;
+}
+
+.IngredientsContainer label li {
+  display: inline-block;
+}
+
+.IngredientsContainer li:first-letter {
+  text-transform: capitalize;
+}
+
+.Instructions {
+  background-color: rgba(236, 236, 236, 1);
+  border-radius: 4px;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+.Iframe {
+  width: 100%;
+}
+
+
+.StartButton {
+  background-color: rgba(108, 227, 79, 1);
+  border-color: transparent;
+  bottom: 0;
+  color: #212529;
+  font-size: 30px;
+  font-weight: 500;
+  height: 76px;
+  left: 50vw;
+  margin-bottom: 2%;
+  position: fixed;
+  transform: translateX(-50%);
+  width: 339px;
+}
+
+.StartButton:disabled {
+  background-color: rgb(124, 124, 124);
+
+}
+
+/* Card Recommended */
+.CardsContainer {
+  display: flex;
+  gap: 15px;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+}
+
+.CardsContainer::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
+.CardsContainer::-webkit-scrollbar-thumb {
+  background: rgba(236, 236, 236, 1);
+  border-radius: 10px;
+}
+
+.CardsContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.Card {
+  border-radius: 6px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  margin: 7px 1px;
+}
+
+.Card > img {
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  height: 109px;
+  object-fit: cover;
+  transition: all ease 0.2s;
+  width: 161px;
+}
+
+.Card > p {
+  margin: 0 0 0 5px;
+
+}
+
+.Card > p:first-of-type {
+  color: darkgray;
+  font-size: 15px;
+}
+
+.Card > p:last-of-type {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+/* Carousel Ref.: https://css-tricks.com/css-only-carousel/ */

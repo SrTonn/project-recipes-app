@@ -5,7 +5,6 @@ import getRecipes from '../services/fetchRecipes';
 
 export default function Provider({ children }) {
   const [inputSearch, setInputSearch] = useState({
-    isVisible: false,
     inputValue: '',
   });
   const [recipes, setRecipes] = useState([]);
