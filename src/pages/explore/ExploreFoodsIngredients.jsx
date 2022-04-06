@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Card from '../../components/Card/Card';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
+import Context from '../../context/Context';
 import styles from '../../styles/pageExploreIngredients.module.css';
 
 export default function ExploreFoodsIngredients() {
+  const { setRecipesInfo } = useContext(Context);
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -16,23 +19,37 @@ export default function ExploreFoodsIngredients() {
     })();
   }, []);
 
+  const handleClick = ({ target: { name: query } }) => {
+    setRecipesInfo({
+      canUpdate: true,
+      canRedirect: false,
+      pathname: '/foods',
+      endpoint: `https://www.themealdb.com/api/json/v1/1/filter.php?i=${query}`,
+    });
+  };
+
   return (
     <>
       <Header />
       <main className={ styles.Main }>
-        {console.log(data)}
         {data && data.map(({ idIngredient, strIngredient }, index) => (
-          <Card
+          <Link
+            to="/foods"
             key={ idIngredient }
-            index={ index }
-            src={ `https://www.themealdb.com/images/ingredients/${strIngredient}-Small.png` }
+            onClick={ handleClick }
             name={ strIngredient }
-            dataTestId={ {
-              container: '-ingredient-card',
-              img: '-card-img',
-              paragraph: '-card-name',
-            } }
-          />
+          >
+            <Card
+              index={ index }
+              src={ `https://www.themealdb.com/images/ingredients/${strIngredient}-Small.png` }
+              name={ strIngredient }
+              dataTestId={ {
+                container: '-ingredient-card',
+                img: '-card-img',
+                paragraph: '-card-name',
+              } }
+            />
+          </Link>
         ))}
       </main>
       <Footer />

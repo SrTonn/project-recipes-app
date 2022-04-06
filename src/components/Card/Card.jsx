@@ -10,8 +10,9 @@ export default function Card({ className, src, index, strType, dataTestId, name 
     >
       <img
         src={ src }
-        alt={ `Imagem da receita ${strType}` }
+        alt={ `Imagem da receita ${name}` }
         data-testid={ dataTestId.img ? index + dataTestId.img : null }
+        name={ name }
       />
       {strType && <p>{strType}</p>}
       <p data-testid={ dataTestId.paragraph ? index + dataTestId.paragraph : null }>

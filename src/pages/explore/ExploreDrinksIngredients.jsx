@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Card from '../../components/Card/Card';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
+import Context from '../../context/Context';
 import styles from '../../styles/pageExploreIngredients.module.css';
 
 export default function ExploreDrinksIngredients() {
+  const { setRecipesInfo } = useContext(Context);
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -16,23 +19,39 @@ export default function ExploreDrinksIngredients() {
     })();
   }, []);
 
+  const handleClick = ({ target: { name: query } }) => {
+    setRecipesInfo({
+      canUpdate: true,
+      canRedirect: false,
+      pathname: '/drinks',
+      endpoint: `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${query}`,
+      //         https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Light rum
+    });
+  };
+
   return (
     <>
       <Header />
       <main className={ styles.Main }>
-        {console.log(data)}
         {data && data.map(({ strIngredient1 }, index) => (
-          <Card
+          <Link
+            to="/drinks"
             key={ strIngredient1 }
-            index={ index }
-            src={ `https://www.thecocktaildb.com/images/ingredients/${strIngredient1}-Small.png` }
+            onClick={ handleClick }
             name={ strIngredient1 }
-            dataTestId={ {
-              container: '-ingredient-card',
-              img: '-card-img',
-              paragraph: '-card-name',
-            } }
-          />
+          >
+            <Card
+              key={ strIngredient1 }
+              index={ index }
+              src={ `https://www.thecocktaildb.com/images/ingredients/${strIngredient1}-Small.png` }
+              name={ strIngredient1 }
+              dataTestId={ {
+                container: '-ingredient-card',
+                img: '-card-img',
+                paragraph: '-card-name',
+              } }
+            />
+          </Link>
         ))}
       </main>
       <Footer />
