@@ -7,15 +7,17 @@ import Card from '../../components/Card/Card';
 import Categories from '../../components/CategoriesFilter/Categories';
 
 export default function Drinks() {
-  const { recipes, setRecipesInfo } = useContext(Context);
+  const { recipes, recipesInfo, setRecipesInfo } = useContext(Context);
   const MAX_RECIPES = 12;
 
   useEffect(() => {
-    setRecipesInfo({
-      canUpdate: true,
-      pathname: '/drinks',
-      endpoint: 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
-    });
+    if (!recipesInfo.endpoint) {
+      setRecipesInfo({
+        canUpdate: true,
+        pathname: '/drinks',
+        endpoint: 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
+      });
+    }
   }, []);
 
   return (
