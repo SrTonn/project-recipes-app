@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './styles.module.css';
 
-export default function Card({ key, index, src, strType }) {
+export default function Card({ index, src, strType }) {
   return (
     <div
       className={ styles.Card }
-      key={ key }
       data-testid={ `${index}-recipe-card` }
     >
       <img
@@ -21,7 +20,6 @@ export default function Card({ key, index, src, strType }) {
 
 Card.propTypes = {
   index: PropTypes.number.isRequired,
-  key: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   strType: PropTypes.string.isRequired,
 };
