@@ -1,0 +1,10 @@
+.Main {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  width: 100vw;
+}
+
+.Card {
+  width: 161px;
+}
