@@ -10,8 +10,11 @@ export default function Profile() {
   useEffect(() => {
     const userSaved = JSON.parse(localStorage.getItem('user'));
     console.log(userSaved);
-    setSavedUser(userSaved.email);
+    if (userSaved) {
+      setSavedUser(userSaved.email);
+    }
   }, []);
+
   const handleClick = ({ name }) => {
     console.log(name);
     if (name === 'Done Recipes') {
