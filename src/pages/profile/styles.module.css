@@ -1,7 +1,7 @@
-body {
-  display: flex;
+/* body {
+  /* display: flex;
   min-height: 100vh;
-}
+} */
 
 .ProfileContentButton {
   background: #c4c4c4;
@@ -17,8 +17,9 @@ body {
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 85vh;
   justify-content: center;
+  width: 100vw;
 }
 
 .ProfileContent p {
