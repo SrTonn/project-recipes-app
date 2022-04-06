@@ -24,10 +24,11 @@ export default function Card({ className, src, index, strType, dataTestId, name 
 Card.defaultProps = {
   strType: null,
   className: null,
+  index: null,
 };
 
 Card.propTypes = {
-  index: PropTypes.number.isRequired,
+  index: PropTypes.number,
   src: PropTypes.string.isRequired,
   className: PropTypes.string,
   name: PropTypes.string.isRequired,
