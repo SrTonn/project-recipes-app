@@ -1,25 +1,18 @@
 .Header {
   align-items: center;
   background-color: rgb(168, 168, 168);
+  column-gap: 16px;
   display: flex;
   height: 58px;
-  /* justify-content: space-between; */
-  width: 100%;
   padding: 0 16px;
-  column-gap: 16px;
+  width: 100%;
 }
 
 .Header button {
   background-color: transparent;
   border: none;
-  /* height: 40px; */
-  /* margin: 10px; */
   width: auto;
 }
-
-/* .Header img {
-  height: 40px;
-} */
 
 .Header h2 {
   text-align: center;
