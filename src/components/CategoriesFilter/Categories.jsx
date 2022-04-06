@@ -7,7 +7,7 @@ import { getCategories } from '../../services/fetchCategories';
 import Context from '../../context/Context';
 
 export default function Categories() {
-  const { recipes, setRecipesInfo } = useContext(Context);
+  const { setRecipesInfo } = useContext(Context);
   const [categories, setCategories] = useState([]);
   const FIRST_FIVE_CATEGORIES = 5;
   const { pathname } = useLocation();
