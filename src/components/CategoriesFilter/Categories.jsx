@@ -29,9 +29,6 @@ export default function Categories() {
   const handleClick = ({ name }) => {
     let query;
     let endpoint;
-    console.log(recipes);
-    console.clear();
-    console.log('ativei', query);
     if (name !== 'All' && name !== lastFiltered) {
       query = name;
       endpoint = `https://www.the${recipeType}db.com/api/json/v1/1/filter.php?c=${query}`;
@@ -40,7 +37,6 @@ export default function Categories() {
       query = '';
       endpoint = `https://www.the${recipeType}db.com/api/json/v1/1/search.php?s=${query}`;
     }
-    console.log('queryFinal=>', query);
     setRecipesInfo({
       canRedirect: false,
       canUpdate: true,
@@ -51,7 +47,6 @@ export default function Categories() {
   // https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert
   return (
     <div className={ styles.Categories }>
-      {console.log(categories)}
       {categories.map((category) => (
         <Button
           name={ category }
