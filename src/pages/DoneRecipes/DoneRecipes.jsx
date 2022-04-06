@@ -48,7 +48,6 @@ export default function DoneRecipes() {
         recipeType !== 'all' ? recipe.type === recipeType : true
       )).map((item, index) => (
         <div key={ item.id } className={ styles.CardContainer }>
-          {console.log(item.type)}
           <Link to={ `/${item.type}s/${item.id}` }>
             <img
               data-testid={ `${index}-horizontal-image` }
@@ -91,6 +90,7 @@ export default function DoneRecipes() {
               {' '}
               {item.doneDate}
             </h4>
+            {console.log('=>', item)}
             <div className={ styles.TagsContainer }>
               {(item.tags.map((tag) => (
                 <p
