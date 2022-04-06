@@ -1,37 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 import Button from '../Button/Button';
 import styles from './styles.module.css';
-import getCategories from '../../services/fetchCategories';
+import { getCategories } from '../../services/fetchCategories';
+import Context from '../../context/Context';
 
 export default function Categories() {
+  const { recipes, setRecipesInfo } = useContext(Context);
   const [categories, setCategories] = useState([]);
+  const FIRST_FIVE_CATEGORIES = 5;
+  const { pathname } = useLocation();
+  const recipeType = (pathname === '/foods' ? 'meal' : 'cocktail');
+  const [lastFiltered, setLastFiltered] = useState('All');
 
-  const FIRST_SIX_CATEGORIES = 5;
-  const location = useLocation();
   useEffect(() => {
     (async () => {
-      const recipeType = (location.pathname === '/foods' ? 'meal' : 'cocktail');
-      const categoriesTreated = await getCategories(`https://www.the${recipeType}db.com/api/json/v1/1/list.php?c=list`);
+      const categoriesTreated = await getCategories(recipeType);
 
       const categoriesRecipes = categoriesTreated.meals || categoriesTreated.drinks;
       const slicedCategories = categoriesRecipes
         .map((category) => category.strCategory)
-        .slice(0, FIRST_SIX_CATEGORIES);
-      setCategories(slicedCategories);
+        .slice(0, FIRST_FIVE_CATEGORIES);
+      setCategories(['All', ...slicedCategories]);
     })();
   }, []);
 
-  const handleClick = () => {
-    console.log('ativei');
+  const handleClick = ({ name }) => {
+    let query;
+    let endpoint;
+    console.log(recipes);
+    console.clear();
+    console.log('ativei', query);
+    if (name !== 'All' && name !== lastFiltered) {
+      query = name;
+      endpoint = `https://www.the${recipeType}db.com/api/json/v1/1/filter.php?c=${query}`;
+      setLastFiltered(name);
+    } else {
+      query = '';
+      endpoint = `https://www.the${recipeType}db.com/api/json/v1/1/search.php?s=${query}`;
+    }
+    console.log('queryFinal=>', query);
+    setRecipesInfo({
+      canRedirect: false,
+      canUpdate: true,
+      pathname,
+      endpoint,
+    });
   };
-
+  // https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert
   return (
     <div className={ styles.Categories }>
       {console.log(categories)}
       {categories.map((category) => (
         <Button
+          name={ category }
           key={ category }
           buttonName={ category }
           className={ styles.Button }
