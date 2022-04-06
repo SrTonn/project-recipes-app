@@ -1,0 +1,35 @@
+/* body {
+  /* display: flex;
+  min-height: 100vh;
+} */
+
+.ProfileContentButton {
+  background: #c4c4c4;
+  border: none;
+  border-radius: 4px;
+  font-size: 25px;
+  height: 53px;
+  margin-top: 20px;
+  width: 329px;
+}
+
+.ProfileContent {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+  justify-content: center;
+  width: 100vw;
+}
+
+.ProfileContent p {
+  font-size: 25px;
+  text-align: center;
+}
+
+.ProfileContainer {
+  align-items: center;
+  display: flex;
+  height: calc(100% - 116px);
+  justify-content: center;
+}

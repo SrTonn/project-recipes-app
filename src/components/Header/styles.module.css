@@ -1,16 +1,20 @@
 .Header {
   align-items: center;
   background-color: rgb(168, 168, 168);
+  column-gap: 16px;
   display: flex;
   height: 58px;
-  justify-content: space-between;
-  width: 100%;
+  padding: 0 16px;
+  width: 100vw;
 }
 
 .Header button {
   background-color: transparent;
   border: none;
-  height: 40px;
-  margin: 10px;
-  width: 40px;
+  width: auto;
+}
+
+.Header h2 {
+  text-align: center;
+  width: calc(100% - 46px * 2);
 }
