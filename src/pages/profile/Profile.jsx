@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Button from '../../components/Button/Button';
+import styles from './styles.module.css';
 
 export default function Profile() {
   const [savedUser, setSavedUser] = useState('');
@@ -32,28 +33,33 @@ export default function Profile() {
   return (
     <>
       <Header />
-      <main>
-        <p data-testid="profile-email">
-          {savedUser}
-        </p>
-        <Button
-          buttonName="Done Recipes"
-          handleClick={ handleClick }
-          dataTestId="profile-done-btn"
-          name="Done Recipes"
-        />
-        <Button
-          buttonName="Favorite Recipes"
-          handleClick={ handleClick }
-          dataTestId="profile-favorite-btn"
-          name="Favorite Recipes"
-        />
-        <Button
-          buttonName="Logout"
-          handleClick={ handleClick }
-          dataTestId="profile-logout-btn"
-          name="Logout"
-        />
+      <main className={ styles.ProfileContainer }>
+        <div className={ styles.ProfileContent }>
+          <p data-testid="profile-email">
+            {savedUser}
+          </p>
+          <Button
+            buttonName="Done Recipes"
+            handleClick={ handleClick }
+            dataTestId="profile-done-btn"
+            name="Done Recipes"
+            className={ styles.ProfileContentButton }
+          />
+          <Button
+            buttonName="Favorite Recipes"
+            handleClick={ handleClick }
+            dataTestId="profile-favorite-btn"
+            name="Favorite Recipes"
+            className={ styles.ProfileContentButton }
+          />
+          <Button
+            buttonName="Logout"
+            handleClick={ handleClick }
+            dataTestId="profile-logout-btn"
+            name="Logout"
+            className={ styles.ProfileContentButton }
+          />
+        </div>
       </main>
       <Footer />
     </>
