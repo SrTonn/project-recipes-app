@@ -110,18 +110,19 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
 }
 
 /* Card Recommended */
-.CardsContainer {
-  display: flex;
 
-  /* -webkit-overflow-scrolling: touch;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory; */
+/* .CardsContainer {
+  display: flex;
   flex-flow: row nowrap;
   gap: 15px;
   overflow-x: scroll;
   width: 350px;
-}
+} */
+
+/* -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory; */
 
 /* .CardsContainer::-webkit-scrollbar {
   height: 10px;
