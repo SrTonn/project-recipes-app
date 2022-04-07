@@ -64,15 +64,6 @@ export default function ExploreNationalities() {
             .slice(0, MAX_RECIPES)
             .map(({ idMeal, strMeal, strMealThumb }, index) => (
               <Link to={ `/foods/${idMeal}` } key={ strMeal }>
-                {/* <div data-testid={ `${index}-recipe-card` }>
-                  <img
-                    src={ strMealThumb }
-                    alt={ `Imagem da receita de ${strMeal}` }
-                    style={ { height: '50px' } }
-                    data-testid={ `${index}-card-img` }
-                  />
-                  <span data-testid={ `${index}-card-name` }>{strMeal}</span>
-                </div> */}
                 <Card
                   index={ index }
                   src={ strMealThumb }
