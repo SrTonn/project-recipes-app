@@ -90,7 +90,6 @@ export default function DoneRecipes() {
               {' '}
               {item.doneDate}
             </h4>
-            {console.log('=>', item)}
             <div className={ styles.TagsContainer }>
               {(item.tags.map((tag) => (
                 <p

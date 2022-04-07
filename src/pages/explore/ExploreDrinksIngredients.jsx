@@ -25,7 +25,6 @@ export default function ExploreDrinksIngredients() {
       canRedirect: false,
       pathname: '/drinks',
       endpoint: `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${query}`,
-      //         https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Light rum
     });
   };
 
