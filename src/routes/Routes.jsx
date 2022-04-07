@@ -4,7 +4,8 @@ import Login from '../pages/login/Login';
 import DoneRecipes from '../pages/DoneRecipes/DoneRecipes';
 import Explore from '../pages/explore/Explore';
 import ExploreDrinksIngredients from '../pages/explore/ExploreDrinksIngredients';
-import ExploreNationalities from '../pages/explore/ExploreNationalities';
+import ExploreNationalities
+from '../pages/explore/ExploreNationalities/ExploreNationalities';
 import FavoriteRecipes from '../pages/FavoriteRecipes/FavoriteRecipes';
 import NotFound from '../pages/NotFound';
 import Profile from '../pages/profile/Profile';
