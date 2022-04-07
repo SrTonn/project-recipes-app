@@ -113,10 +113,12 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
 .CardsContainer {
   display: flex;
   gap: 15px;
-  -webkit-overflow-scrolling: touch;
+
+  /* -webkit-overflow-scrolling: touch; */
   overflow-x: auto;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
+  width: 350px;
 }
 
 .CardsContainer::-webkit-scrollbar {
