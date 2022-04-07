@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import getRecipes from '../../services/fetchRecipes';
@@ -14,29 +15,23 @@ export default function ExploreNationalities() {
       const nationalitiesTreated = await getRecipes(
         'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
       );
-      const recipesTreated = await getRecipes(
+      const strArea = nationalitiesTreated.meals.map((recipe) => recipe.strArea);
+      setNationalities((prevState) => [...prevState, ...strArea]);
+
+      const { meals } = await getRecipes(
         'https://www.themealdb.com/api/json/v1/1/search.php?s=',
       );
-      const { meals } = recipesTreated;
-      console.log('meals', meals);
-      const resultNationality = nationalitiesTreated.meals;
-      const strArea = resultNationality.map((recipe) => recipe.strArea);
-
-      setNationalities((prevState) => [...prevState, ...strArea]);
       setCards(meals);
       setFilteredCard(meals);
     })();
   }, []);
 
   const handleChange = async ({ target }) => {
-    // const filteredCards = cards.filter((card) => card.strArea === target.value);
     const { meals } = await getRecipes(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${target.value}`);
     if (target.value === 'All') {
       setFilteredCard(cards);
       return;
     }
-    // console.log('filtered', filteredCards);
-    // console.log('card', cards);
     setFilteredCard(meals);
   };
 
@@ -48,9 +43,9 @@ export default function ExploreNationalities() {
           onChange={ handleChange }
           data-testid="explore-by-nationality-dropdown"
         >
-          {nationalities.map((nationality) => (
+          {nationalities.map((nationality, index) => (
             <option
-              key={ nationality }
+              key={ index + nationality }
               data-testid={ `${nationality}-option` }
               value={ nationality }
             >
@@ -60,18 +55,21 @@ export default function ExploreNationalities() {
         </select>
       </div>
       <section>
+        {console.log('filteredCard=>', filteredCard.slice(0, 2))}
         {filteredCard
           .slice(0, MAX_RECIPES)
-          .map(({ strMeal, strMealThumb }, index) => (
-            <div key={ strMeal } data-testid={ `${index}-recipe-card` }>
-              <img
-                src={ strMealThumb }
-                alt={ `Imagem da receita de ${strMeal}` }
-                style={ { height: '50px' } }
-                data-testid={ `${index}-card-img` }
-              />
-              <span data-testid={ `${index}-card-name` }>{strMeal}</span>
-            </div>
+          .map(({ idMeal, strMeal, strMealThumb }, index) => (
+            <Link to={ `/foods/${idMeal}` } key={ strMeal }>
+              <div data-testid={ `${index}-recipe-card` }>
+                <img
+                  src={ strMealThumb }
+                  alt={ `Imagem da receita de ${strMeal}` }
+                  style={ { height: '50px' } }
+                  data-testid={ `${index}-card-img` }
+                />
+                <span data-testid={ `${index}-card-name` }>{strMeal}</span>
+              </div>
+            </Link>
           ))}
       </section>
       <Footer />
