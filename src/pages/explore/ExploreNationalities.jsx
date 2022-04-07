@@ -4,29 +4,40 @@ import Header from '../../components/Header/Header';
 import getRecipes from '../../services/fetchRecipes';
 
 export default function ExploreNationalities() {
-  const [nationalities, setNationalities] = useState([]);
+  const [nationalities, setNationalities] = useState(['All']);
   const [cards, setCards] = useState([]);
+  const [filteredCard, setFilteredCard] = useState([]);
+  const MAX_RECIPES = 12;
 
   useEffect(() => {
     (async () => {
       const nationalitiesTreated = await getRecipes(
-        'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
+        'https://www.themealdb.com/api/json/v1/1/list.php?a=all',
       );
       const recipesTreated = await getRecipes(
         'https://www.themealdb.com/api/json/v1/1/search.php?s=',
       );
       const { meals } = recipesTreated;
+      console.log('meals', meals);
       const resultNationality = nationalitiesTreated.meals;
       const strArea = resultNationality.map((recipe) => recipe.strArea);
-      setNationalities(strArea);
+
+      setNationalities((prevState) => [...prevState, ...strArea]);
       setCards(meals);
+      setFilteredCard(meals);
     })();
   }, []);
 
-  const handleChange = ({ target }) => {
-    const filteredCards = cards.filter((card) => (card.strArea === target.value));
-    console.log(filteredCards);
-    return filteredCards;
+  const handleChange = async ({ target }) => {
+    // const filteredCards = cards.filter((card) => card.strArea === target.value);
+    const { meals } = await getRecipes(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${target.value}`);
+    if (target.value === 'All') {
+      setFilteredCard(cards);
+      return;
+    }
+    // console.log('filtered', filteredCards);
+    // console.log('card', cards);
+    setFilteredCard(meals);
   };
 
   return (
@@ -48,7 +59,21 @@ export default function ExploreNationalities() {
           ))}
         </select>
       </div>
-      <section>{handleChange}</section>
+      <section>
+        {filteredCard
+          .slice(0, MAX_RECIPES)
+          .map(({ strMeal, strMealThumb }, index) => (
+            <div key={ strMeal } data-testid={ `${index}-recipe-card` }>
+              <img
+                src={ strMealThumb }
+                alt={ `Imagem da receita de ${strMeal}` }
+                style={ { height: '50px' } }
+                data-testid={ `${index}-card-img` }
+              />
+              <span data-testid={ `${index}-card-name` }>{strMeal}</span>
+            </div>
+          ))}
+      </section>
       <Footer />
     </main>
   );
