@@ -169,16 +169,7 @@ export default function FoodDetails() {
           allowFullScreen
         />
         <h3>Recommended</h3>
-        <div
-          className={ styles.CardsContainer }
-          style={ {
-            display: 'flex',
-            'flex-flow': 'row nowrap',
-            gap: '15px',
-            'overflow-x': 'scroll',
-            width: '350px',
-          } }
-        >
+        <div className={ styles.CardsContainer }>
           {recommendations?.slice(0, MAX_RECOMMENDATION)
             .map(({ strDrinkThumb, strAlcoholic, idDrink, strDrink }, index) => (
               <Card

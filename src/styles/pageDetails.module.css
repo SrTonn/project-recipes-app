@@ -138,10 +138,25 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
   background: transparent;
 } */
 
+.CardsContainer {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  overflow-x: scroll;
+  padding-bottom: 16px;
+  position: relative;
+}
+
 .Card {
-  border-radius: 6px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  margin: 7px 1px;
+  align-items: center;
+  background-color: white;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-right: 13px;
+  width: 170px;
 }
 
 .Card > img {

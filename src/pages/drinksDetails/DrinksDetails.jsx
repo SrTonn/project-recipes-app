@@ -157,16 +157,7 @@ export default function FoodDetails() {
           {data.strInstructions}
         </p>
         <h3>Recommended</h3>
-        <div
-          className={ styles.CardsContainer }
-          style={ {
-            display: 'flex',
-            'flex-flow': 'row nowrap',
-            gap: '15px',
-            'overflow-x': 'scroll',
-            width: '350px',
-          } }
-        >
+        <div className={ styles.CardsContainer }>
           {recommendations?.slice(0, MAX_RECOMMENDATION)
             .map(({ strMealThumb, strCategory, idMeal, strMeal }, index) => (
               <Card
