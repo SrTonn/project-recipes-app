@@ -12,7 +12,7 @@ export default function ExploreNationalities() {
   useEffect(() => {
     (async () => {
       const nationalitiesTreated = await getRecipes(
-        'https://www.themealdb.com/api/json/v1/1/list.php?a=all',
+        'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
       );
       const recipesTreated = await getRecipes(
         'https://www.themealdb.com/api/json/v1/1/search.php?s=',
