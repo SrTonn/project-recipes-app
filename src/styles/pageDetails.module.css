@@ -109,34 +109,26 @@ https://pqina.nl/blog/resize-images-proportionally-while-keeping-the-aspect-rati
 
 }
 
-/* Card Recommended */
+
 .CardsContainer {
   display: flex;
-  gap: 15px;
-  -webkit-overflow-scrolling: touch;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-}
-
-.CardsContainer::-webkit-scrollbar {
-  height: 10px;
-  width: 10px;
-}
-
-.CardsContainer::-webkit-scrollbar-thumb {
-  background: rgba(236, 236, 236, 1);
-  border-radius: 10px;
-}
-
-.CardsContainer::-webkit-scrollbar-track {
-  background: transparent;
+  flex-direction: row;
+  list-style: none;
+  overflow-x: scroll;
+  padding-bottom: 16px;
+  position: relative;
 }
 
 .Card {
-  border-radius: 6px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  margin: 7px 1px;
+  align-items: center;
+  background-color: white;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-right: 13px;
+  width: 170px;
 }
 
 .Card > img {
